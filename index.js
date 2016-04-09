@@ -9,8 +9,9 @@ app.use(bodyParser.json({verify:function(req,res,buf){req.rawBody=buf}}));
 
 
 app.post('/api/run', function(req, res) {
-  var script = req.rawBody.toString('utf8').replace('script=', '');
-  vm.run(script, undefined, function(result) {
+  var type = req.body.type;
+  var script = req.body.script || req.rawBody.toString('utf8').replace('script=', '');
+  vm.run(script, type, undefined, function(result) {
     res.send(result);
   });
 });
