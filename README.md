@@ -14,7 +14,7 @@ npm install
 /api/run
 ```
 
-> example
+> examples
 
 _synchronous_
 

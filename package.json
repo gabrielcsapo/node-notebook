@@ -18,5 +18,8 @@
     "npm": "^3.8.6",
     "regenerator": "^0.8.42",
     "vm2": "^2.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^2.7.0"
   }
 }
