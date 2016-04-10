@@ -43,4 +43,22 @@ describe('Sever', function() {
       });
   });
 
+  it('should test /api/run with simple math', function(done) {
+    this.timeout(50000);
+    var code = {'script': 'var number = 5+5;number;'};
+    request(app)
+      .post('/api/run')
+      .type('json')
+      .send(code)
+      .expect(200)
+      .end(function(err, res) {
+        if (err) { throw err; }
+        assert.isObject(res.body, 'response is an object');
+        assert.equal(res.body.result, '10', 'response is 10 which is 5+5');
+        assert.equal(res.body.type, 'Number', 'response type is Number');
+        done();
+      });
+
+  })
+
 });
