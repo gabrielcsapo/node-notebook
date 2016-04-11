@@ -8,6 +8,12 @@
 npm install
 ```
 
+## example
+
+> localhost:3000/
+
+![jaas demo](./public/assets/example.gif)
+
 ## usage
 
 ```

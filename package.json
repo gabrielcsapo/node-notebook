@@ -17,6 +17,7 @@
     "express": "^4.13.4",
     "npm": "^3.8.6",
     "regenerator": "^0.8.42",
+    "serve-static": "^1.10.2",
     "vm2": "^2.0.2"
   },
   "devDependencies": {

@@ -4,6 +4,9 @@ var app = express();
 var vm = require('./lib/vm');
 var port = process.env.PORT || 3000;
 
+var serveStatic = require('serve-static');
+
+app.use(serveStatic(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: false, verify:function(req,res,buf){req.rawBody=buf}}));
 app.use(bodyParser.json({verify:function(req,res,buf){req.rawBody=buf}}));
 
