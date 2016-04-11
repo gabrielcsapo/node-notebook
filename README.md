@@ -12,7 +12,8 @@ npm install
 
 > localhost:3000/
 
-![jaas demo](./public/assets/example.gif)
+![jaas demo](./public/assets/code-example-sync.gif)
+![jaas demo](./public/assets/code-example-async.gif)
 
 ## usage
 

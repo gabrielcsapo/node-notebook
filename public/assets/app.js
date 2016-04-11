@@ -14,6 +14,6 @@ codeEditor.on('keydown', function(cm, e) {
                 document.getElementById('code-response').innerHTML = xhr.responseText;
             }
         }
-        xhr.send(JSON.stringify({script:codeEditor.getValue()}));
+        xhr.send(JSON.stringify({script:codeEditor.getValue(), type: document.getElementById('code-type').value}));
     }
 });
