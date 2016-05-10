@@ -1,5 +1,9 @@
 # jaas
 
+[![Build Status](https://travis-ci.org/gabrielcsapo/jaas.svg?branch=master)](https://travis-ci.org/gabrielcsapo/jaas)
+[![Dependency Status](https://david-dm.org/gabrielcsapo/jaas.svg)](https://david-dm.org/gabrielcsapo/jaas)
+[![devDependency Status](https://david-dm.org/gabrielcsapo/jaas/dev-status.svg)](https://david-dm.org/gabrielcsapo/jaas#info=devDependencies)
+
 > Javascript as a Service
 
 ## installation
