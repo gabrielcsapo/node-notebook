@@ -5,7 +5,7 @@
   "main": "./lib/vm.js",
   "scripts": {
     "test": "mocha",
-    "start": "node server.js"
+    "start": "node index.js"
   },
   "author": "Gabriel J. Csapo <gabecsapo@gmail.com>",
   "license": "ISC",
@@ -23,6 +23,8 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "eslint": "^2.7.0",
+    "grunt": "^1.0.1",
+    "grunt-screenshot": "^0.1.0",
     "mocha": "^2.4.5",
     "supertest": "^1.2.0"
   },
