@@ -29,7 +29,6 @@ describe('Sever', function() {
     it('should test /api/run with async code', function(done) {
         this.timeout(50000);
         var code = {
-            'type': 'async',
             'script': 'var request = require("request-promise"); var response = await request({ url: "https://graph.facebook.com/?id=http://news.ycombinator.com", json: true });'
         };
         request(app)

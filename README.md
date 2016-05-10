@@ -39,7 +39,7 @@ curl -X POST localhost:3000/api/run --data "script=var moment=require('moment');
 _async_
 
 ```bash
-curl -X POST localhost:3000/api/run --data "script=var request = require('request-promise'); var response = await request({ url: 'https://graph.facebook.com/?id=http://news.ycombinator.com', json: true });&type=async"
+curl -X POST localhost:3000/api/run --data "script=var request = require('request-promise'); var response = await request({ url: 'https://graph.facebook.com/?id=http://news.ycombinator.com', json: true });"
 ```
 *result*
 
