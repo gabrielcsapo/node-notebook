@@ -20,15 +20,14 @@ app.use(bodyParser.json({
 }));
 
 app.post('/api/run', function(req, res) {
-    var type = req.body.type || 'sync';
     var script = req.body.script || req.rawBody.toString('utf8').replace('script=', '');
-    vm.run(script, type, undefined, function(result) {
+    vm.run(script, function(result) {
         res.send(result);
     });
 });
 
 app.listen(port, function() {
-    console.log('listening on http://localhost:%s', port); // eslint-disable-line no-console
+    console.log('jaas listening on http://localhost:%s', port); // eslint-disable-line no-console
 });
 
 module.exports = app;
