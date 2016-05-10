@@ -14,11 +14,15 @@ npm install
 
 ## usage
 
-```
-/api/run
+> module (require('jaas'))
+
+```javascript
+require('jaas').run("var moment=require('moment');moment().format('x');", function(result) {
+    // result = { trace: [], result: '\'1462858310879\'', type: 'String' }
+});
 ```
 
-> examples
+> server (node index.js)
 
 _synchronous_
 
