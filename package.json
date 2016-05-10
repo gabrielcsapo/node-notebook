@@ -1,10 +1,11 @@
 {
   "name": "jaas",
   "version": "1.0.0",
-  "description": "",
+  "description": "Javascript as a Service",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
@@ -25,5 +26,16 @@
     "eslint": "^2.7.0",
     "mocha": "^2.4.5",
     "supertest": "^1.2.0"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrielcsapo/jaas.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gabrielcsapo/jaas/issues"
+  },
+  "homepage": "https://github.com/gabrielcsapo/jaas#readme"
 }
