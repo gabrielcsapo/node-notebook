@@ -1,6 +1,6 @@
 {
   "name": "jaas",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Javascript as a Service",
   "main": "./lib/vm.js",
   "scripts": {
