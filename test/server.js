@@ -70,7 +70,6 @@ describe('Sever', function() {
                 assert.equal(res.body.type, 'Number', 'response type is Number');
                 done();
             });
-
     });
 
 });

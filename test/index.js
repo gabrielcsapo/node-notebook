@@ -1,1 +1,2 @@
 require('./server');
+require('./module');
