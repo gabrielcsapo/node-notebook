@@ -34,7 +34,7 @@ describe('Sever', function() {
     it('should test /api/run with simple math', function(done) {
         this.timeout(50000);
         var code = 'var number = 5+5;number;';
-        
+
         jaas.run(code, function(result) {
             assert.isObject(result, 'result is an object');
             assert.equal(result.result, '10', 'result is 10 which is 5+5');
@@ -42,5 +42,14 @@ describe('Sever', function() {
             done();
         });
     });
+
+    it('should return hello world in trace', function(done) {
+        var code = 'var c = function(callback) { callback("hello-world"); }; c(function(val) { console.log(val); });';
+        jaas.run(code, function(result) {
+            assert.isObject(result, 'response is an object');
+            assert.equal(result.trace[0], 'hello-world', 'response trace is hello-world');
+            done();
+        });
+    })
 
 });

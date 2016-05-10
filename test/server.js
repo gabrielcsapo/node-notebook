@@ -72,4 +72,23 @@ describe('Sever', function() {
             });
     });
 
+    it('should return hello world in trace', function(done) {
+        var code = {
+            'script': 'var c = function(callback) { callback("hello-world"); }; c(function(val) { console.log(val); });'
+        };
+        request(app)
+            .post('/api/run')
+            .type('json')
+            .send(code)
+            .expect(200)
+            .end(function(err, res) {
+                if (err) {
+                    throw err;
+                }
+                assert.isObject(res.body, 'response is an object');
+                assert.equal(res.body.trace[0], 'hello-world', 'response trace is hello-world');
+                done();
+            });
+    });
+
 });
