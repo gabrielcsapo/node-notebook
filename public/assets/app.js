@@ -1,4 +1,5 @@
 /*global CodeMirror, document, XMLHttpRequest */
+var now = Date.now();
 var codeEditor = CodeMirror(document.getElementById('code-editor'), {
     value: "function func(){return 100;}\n",
     mode:  "javascript"
@@ -14,6 +15,6 @@ codeEditor.on('keydown', function(cm, e) {
                 document.getElementById('code-response').innerHTML = xhr.responseText;
             }
         }
-        xhr.send(JSON.stringify({script:codeEditor.getValue()}));
+        xhr.send(JSON.stringify({script:codeEditor.getValue(), session: now}));
     }
 });
