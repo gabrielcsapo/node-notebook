@@ -3,9 +3,9 @@ var assert = require('chai').assert;
 var app = require('../index');
 
 describe('Sever', function() {
+    this.timeout(100000);
 
     it('should test /api/run with sync code', function(done) {
-        this.timeout(50000);
         var code = {
             'script': 'var moment=require("moment");moment().format("x");'
         };
@@ -27,7 +27,6 @@ describe('Sever', function() {
     });
 
     it('should test /api/run with async code', function(done) {
-        this.timeout(50000);
         var code = {
             'script': 'var request = require("request-promise"); var response = await request({ url: "https://graph.facebook.com/?id=http://news.ycombinator.com", json: true });'
         };
@@ -52,7 +51,6 @@ describe('Sever', function() {
     });
 
     it('should test /api/run with simple math', function(done) {
-        this.timeout(50000);
         var code = {
             'script': 'var number = 5+5;number;'
         };
