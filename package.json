@@ -1,10 +1,10 @@
 {
   "name": "jaas",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Javascript as a Service",
   "main": "./lib/vm.js",
   "scripts": {
-    "test": "mocha",
+    "test": "./node_modules/.bin/eslint .; mocha",
     "start": "node index.js"
   },
   "author": "Gabriel J. Csapo <gabecsapo@gmail.com>",
@@ -16,7 +16,6 @@
     "babel-preset-stage-0": "^6.5.0",
     "body-parser": "^1.15.0",
     "express": "^4.13.4",
-    "npm": "^3.8.6",
     "regenerator-runtime": "^0.9.5",
     "serve-static": "^1.10.2"
   },

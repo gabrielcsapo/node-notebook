@@ -1,4 +1,3 @@
-var request = require('supertest');
 var assert = require('chai').assert;
 var jaas = require('../lib/vm');
 

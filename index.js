@@ -23,7 +23,6 @@ app.post('/api/run', function(req, res) {
     var session = req.body.session || Date.now();
     var script = req.body.script || req.rawBody.toString('utf8').replace('script=', '');
     vm.run(script, session, function(result) {
-        console.log(result);
         res.send(result);
     });
 });
