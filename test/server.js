@@ -19,6 +19,7 @@ describe('Sever', function() {
                     throw err;
                 }
                 assert.isObject(res.body, 'response is an object');
+                assert.isString(res.body.time, 'time is a string');
                 assert.isArray(res.body.trace, 'response trace is an Array');
                 assert.isString(res.body.result, 'response result is a string');
                 assert.equal(res.body.type, 'String', 'response type is string');
@@ -40,6 +41,7 @@ describe('Sever', function() {
                     throw err;
                 }
                 assert.isObject(res.body, 'response is an object');
+                assert.isString(res.body.time, 'time is a string');
                 assert.isArray(res.body.trace, 'response trace is an Array');
                 assert.isObject(res.body.result, 'response result is a Object');
                 assert.equal(res.body.result.id, 'http://news.ycombinator.com', 'id is http://news.ycombinator.com');
@@ -64,6 +66,7 @@ describe('Sever', function() {
                     throw err;
                 }
                 assert.isObject(res.body, 'response is an object');
+                assert.isString(res.body.time, 'time is a string');
                 assert.equal(res.body.result, '10', 'response is 10 which is 5+5');
                 assert.equal(res.body.type, 'Number', 'response type is Number');
                 done();
@@ -84,6 +87,7 @@ describe('Sever', function() {
                     throw err;
                 }
                 assert.isObject(res.body, 'response is an object');
+                assert.isString(res.body.time, 'time is a string');
                 assert.equal(res.body.trace[0], 'hello-world', 'response trace is hello-world');
                 done();
             });
