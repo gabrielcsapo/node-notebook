@@ -1,10 +1,16 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
+var path = require('path');
+var fs = require('fs');
 var vm = require('./lib/vm');
 var port = process.env.PORT || 3000;
 
 var serveStatic = require('serve-static');
+
+try {
+    fs.mkdirSync(path.resolve(__dirname, 'sandbox'));
+} catch(ex) { /*don't care*/ }
 
 app.use(serveStatic(__dirname + '/public'));
 app.use(bodyParser.urlencoded({
