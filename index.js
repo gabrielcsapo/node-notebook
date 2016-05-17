@@ -1,3 +1,4 @@
+var compression = require('compression')
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
@@ -10,11 +11,13 @@ try {
     fs.mkdirSync(path.resolve(__dirname, 'sandbox'));
 } catch(ex) { /*don't care*/ }
 
-app.set('views', './public')
 app.set('view engine', 'pug');
+app.use(compression());
 
-app.use('/assets', express.static(__dirname + '/public/assets'));
+app.use('/assets', express.static(__dirname + '/assets'));
 app.use('/assets/codemirror', express.static(__dirname + '/node_modules/codemirror'));
+app.use('/assets/normalize', express.static(__dirname + '/node_modules/normalize.css'));
+app.use('/assets/font-awesome', express.static(__dirname + '/node_modules/font-awesome'));
 app.use(bodyParser.urlencoded({
     extended: false,
     verify: function(req, res, buf) {

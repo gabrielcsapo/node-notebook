@@ -1,4 +1,2 @@
 node_modules/**
-public/assets/codemirror.js
-public/assets/javascript.js
 sandbox/**
