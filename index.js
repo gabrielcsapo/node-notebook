@@ -6,13 +6,15 @@ var fs = require('fs');
 var vm = require('./lib/vm');
 var port = process.env.PORT || 3000;
 
-var serveStatic = require('serve-static');
-
 try {
     fs.mkdirSync(path.resolve(__dirname, 'sandbox'));
 } catch(ex) { /*don't care*/ }
 
-app.use(serveStatic(__dirname + '/public'));
+app.set('views', './public')
+app.set('view engine', 'pug');
+
+app.use('/assets', express.static(__dirname + '/public/assets'));
+app.use('/assets/codemirror', express.static(__dirname + '/node_modules/codemirror'));
 app.use(bodyParser.urlencoded({
     extended: false,
     verify: function(req, res, buf) {
@@ -24,6 +26,10 @@ app.use(bodyParser.json({
         req.rawBody = buf
     }
 }));
+
+app.get('/', function (req, res) {
+  res.render('index');
+});
 
 app.post('/api/run', function(req, res) {
     var session = req.body.session || Date.now();
