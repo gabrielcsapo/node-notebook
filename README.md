@@ -1,10 +1,10 @@
-# jaas
+# node-notebook
 
-[![Build Status](https://travis-ci.org/gabrielcsapo/jaas.svg?branch=master)](https://travis-ci.org/gabrielcsapo/jaas)
-[![Dependency Status](https://david-dm.org/gabrielcsapo/jaas.svg)](https://david-dm.org/gabrielcsapo/jaas)
-[![devDependency Status](https://david-dm.org/gabrielcsapo/jaas/dev-status.svg)](https://david-dm.org/gabrielcsapo/jaas#info=devDependencies)
+[![Build Status](https://travis-ci.org/gabrielcsapo/node-notebook.svg?branch=master)](https://travis-ci.org/gabrielcsapo/node-notebook)
+[![Dependency Status](https://david-dm.org/gabrielcsapo/node-notebook.svg)](https://david-dm.org/gabrielcsapo/node-notebook)
+[![devDependency Status](https://david-dm.org/gabrielcsapo/node-notebook/dev-status.svg)](https://david-dm.org/gabrielcsapo/node-notebook#info=devDependencies)
 
-> Javascript as a Service
+> A notebook service that runs Javascript through the node vm
 
 ## installation
 
@@ -14,10 +14,10 @@ npm install
 
 ## usage
 
-> module (require('jaas'))
+> module (require('node-notebook'))
 
 ```javascript
-require('jaas').run("var moment=require('moment');moment().format('x');", function(result) {
+require('node-notebook').run("var moment=require('moment');moment().format('x');", function(result) {
     // result = { trace: [], result: '\'1462858310879\'', type: 'String' }
 });
 ```

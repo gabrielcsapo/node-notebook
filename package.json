@@ -1,7 +1,7 @@
 {
-  "name": "jaas",
-  "version": "0.1.0",
-  "description": "Javascript as a Service",
+  "name": "node-notebook",
+  "version": "0.0.1",
+  "description": "A notebook service that runs Javascript through the node vm",
   "main": "./lib/vm.js",
   "scripts": {
     "test": "./node_modules/.bin/eslint .; mocha",
@@ -39,10 +39,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gabrielcsapo/jaas.git"
+    "url": "git+https://github.com/gabrielcsapo/node-notebook.git"
   },
   "bugs": {
-    "url": "https://github.com/gabrielcsapo/jaas/issues"
+    "url": "https://github.com/gabrielcsapo/node-notebook/issues"
   },
-  "homepage": "https://github.com/gabrielcsapo/jaas#readme"
+  "homepage": "https://github.com/gabrielcsapo/node-notebook#readme"
 }

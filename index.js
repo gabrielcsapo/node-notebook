@@ -43,7 +43,7 @@ app.post('/api/run', function(req, res) {
 });
 
 app.listen(port, function() {
-    console.log('jaas listening on http://localhost:%s', port); // eslint-disable-line no-console
+    console.log('node-notebook listening on http://localhost:%s', port); // eslint-disable-line no-console
 });
 
 module.exports = app;
