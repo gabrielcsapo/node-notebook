@@ -7,6 +7,7 @@ var parse = function(req) {
     var type = req.type;
     var response = req.result;
     var error = req.error;
+    var logs = req.trace;
     var html = '';
     if(error) {
         html += '<label>';
@@ -15,6 +16,7 @@ var parse = function(req) {
     } else {
         switch (type) {
             case 'Array':
+                // TODO: abstract treeview creation
                 var t = Date.now();
                 html += '<div class="treeview"><ul>';
                 html += '<li>';
@@ -31,11 +33,29 @@ var parse = function(req) {
                 html += '</ul></div>';
                 break;
             default:
-                html += '<label for="'+t+'">';
-                html += '<span>' + type + ' ('+response+')</span>';
-                html += '</label>';
+                if(type !== 'undefined') {
+                    html += '<label for="'+t+'">';
+                    html += '<span>' + type + ' ('+response+')</span>';
+                    html += '</label>';
+                }
                 break;
         }
+    }
+    if(logs) {
+        var t = Date.now();
+        html += '<div class="treeview"><ul>';
+        html += '<li>';
+        html += '<input type="checkbox" id="'+t+'">';
+        html += '<label for="'+t+'">';
+        html += '<span>Array ('+logs.length+')</span>';
+        html += '</label>';
+        html += '<ul>';
+        logs.forEach(function(value) {
+            html += '<li><span>' + value + '</span></li>';
+        });
+        html += '<ul>';
+        html += '</li>';
+        html += '</ul></div>';
     }
     return html;
 }
