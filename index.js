@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var app = express();
 var path = require('path');
 var fs = require('fs');
+var figlet = require('figlet');
 var vm = require('./lib/vm');
 var datasource = require('./lib/datasource');
 var port = process.env.PORT || 3000;
@@ -66,7 +67,10 @@ app.get('/:hash/json', function(req, res) {
 });
 
 app.listen(port, function() {
-    console.log('node-notebook listening on http://localhost:%s', port); // eslint-disable-line no-console
+    figlet('node-notebook', function(err, data) {
+        console.log(data); // eslint-disable-line no-console
+        console.log('node-notebook listening on http://localhost:%s', port); // eslint-disable-line no-console
+    });
 });
 
 module.exports = app;

@@ -18,6 +18,7 @@
     "codemirror": "^5.14.2",
     "compression": "^1.6.2",
     "express": "^4.13.4",
+    "figlet": "^1.1.2",
     "font-awesome": "^4.6.1",
     "fs-extra": "^0.30.0",
     "lowdb": "^0.12.5",

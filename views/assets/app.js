@@ -85,10 +85,12 @@ var run = function(id, code) {
     }));
 }
 
+/*eslint-disable no-unused-vars */
 var deleteBlock = function(id) {
     delete editors[id];
     document.querySelector('.code-container').removeChild(document.getElementById(id+'-code-form').parentNode);
 }
+/*eslint-enable no-unused-vars */
 
 var createTextBlock = function(id, text) {
     var now = Date.now();
