@@ -17,7 +17,6 @@ var parse = function(req) {
             html += '</label>';
             html += '<ul>';
             response.forEach(function(value) {
-                var t = Date.now();
                 html += '<li><span>' + value + '</span></li>';
             });
             html += '<ul>';
@@ -101,7 +100,7 @@ var createCodeBlock = function(id, script) {
     if(script) {
         editor.setValue(script);
     }
-    editor.on('keyup', function(cm, e) {
+    editor.on('keyup', function() {
         if (editor.getValue().length == 0) {
             document.getElementById(now + '-code-tooltip').style.display = 'block';
             document.getElementById(now + '-code-response').style.display = 'none';
@@ -118,9 +117,6 @@ var createCodeBlock = function(id, script) {
 }
 
 var startup = function() {
-    console.log('testing');
-    console.log(JSON.stringify(document.querySelector('.code-container').dataset));
-    console.log(document.querySelector('.code-container').dataset['storedValues']);
     var storedValues;
     if (/PhantomJS/.test(window.navigator.userAgent)) {
         storedValues = document.querySelector('.code-container').dataset['storedValues']

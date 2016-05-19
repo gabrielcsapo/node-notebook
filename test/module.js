@@ -16,21 +16,6 @@ describe('Module', function() {
         });
     });
 
-    it('should test /api/run with async code', function(done) {
-        var code = 'var request = require("request-promise"); var response = await request({ url: "https://graph.facebook.com/?id=http://news.ycombinator.com", json: true });';
-        notebook.run(code, Date.now(), function(result) {
-            assert.isObject(result, 'result is an object');
-            assert.isString(result.time, 'time is a string');
-            assert.isArray(result.trace, 'result trace is an Array');
-            assert.isObject(result.result, 'result result is a Object');
-            assert.equal(result.result.id, 'http://news.ycombinator.com', 'id is http://news.ycombinator.com');
-            assert.isNumber(result.result.shares, 'shares is a number');
-            assert.isNumber(result.result.comments, 'comments is a number');
-            assert.equal(result.type, 'Object', 'result type is Object');
-            done();
-        });
-    });
-
     it('should test /api/run with simple math', function(done) {
         var code = 'var number = 5+5;number;';
 

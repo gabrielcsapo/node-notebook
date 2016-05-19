@@ -39,22 +39,3 @@ curl -X POST localhost:3000/api/run --data "script=var moment=require('moment');
     "type": "String"
 }
 ```
-
-_async_
-
-```bash
-curl -X POST localhost:3000/api/run --data "script=var request = require('request-promise'); var response = await request({ url: 'https://graph.facebook.com/?id=http://news.ycombinator.com', json: true });"
-```
-*result*
-
-```javascript
-{
-    "trace": [],
-    "result": {
-        "id": "http://news.ycombinator.com",
-        "shares": 9668,
-        "comments": 3
-    },
-    "type": "Object"
-}
-```
