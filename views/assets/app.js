@@ -1,4 +1,4 @@
-/*global CodeMirror, document, XMLHttpRequest */
+/*global CodeMirror */
 var session = location.pathname !== '/' ? location.pathname.replace('/', '') : Date.now();
 
 var editors = [];
@@ -8,7 +8,12 @@ var parse = function(req) {
     var response = req.result;
     var error = req.error;
     var logs = req.trace;
+    var time = req.time;
     var html = '';
+
+    if(time) {
+        html += '<span style="float: right;margin-top: -5px;" class="badge badge-default">' + time + '</span>';
+    }
     if(error) {
         html += '<label>';
         html += '<span> error : ('+error+')</span>';
@@ -42,11 +47,11 @@ var parse = function(req) {
         }
     }
     if(logs && logs.length > 0) {
-        var t = Date.now();
+        var l = Date.now();
         html += '<div class="treeview"><ul>';
         html += '<li>';
-        html += '<input type="checkbox" id="'+t+'">';
-        html += '<label for="'+t+'">';
+        html += '<input type="checkbox" id="'+l+'">';
+        html += '<label for="'+l+'">';
         html += '<span>Array ('+logs.length+')</span>';
         html += '</label>';
         html += '<ul>';
