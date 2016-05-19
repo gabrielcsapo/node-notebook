@@ -18,7 +18,7 @@ app.use(compression());
 app.use('/assets', express.static(__dirname + '/views/assets'));
 app.use('/assets/marked', express.static(__dirname + '/node_modules/marked'));
 app.use('/assets/codemirror', express.static(__dirname + '/node_modules/codemirror'));
-app.use('/assets/normalize', express.static(__dirname + '/node_modules/normalize.css'));
+app.use('/assets/psychic-ui', express.static(__dirname + '/node_modules/psychic-ui'));
 app.use('/assets/font-awesome', express.static(__dirname + '/node_modules/font-awesome'));
 app.use(bodyParser.urlencoded({
     extended: false,

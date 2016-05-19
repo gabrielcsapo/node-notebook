@@ -3,7 +3,7 @@ html
     head
         title node-notebook
         link(rel="stylesheet" href="/assets/font-awesome/css/font-awesome.css")
-        link(rel="stylesheet" href="/assets/normalize/normalize.css")
+        link(rel="stylesheet" href="/assets/psychic-ui/psychic-min.css")
         link(rel="stylesheet" href="/assets/codemirror/lib/codemirror.css")
         link(rel="stylesheet" href="/assets/app.css")
         script(src="/assets/marked/lib/marked.js" type="text/javascript")
@@ -12,8 +12,8 @@ html
     body
         div(class="code-container" data-stored-values=stored_values)
             if (share_url)
-                button(id="btn-save") Save
-                button(id="btn-run-all") Run
+                button(class="btn border-primary" id="btn-save") Save
+                button(class="btn border-default pull-right" id="btn-run-all") Run
                 br
                 br
                 pre
@@ -21,5 +21,5 @@ html
                         span share url :
                             span=share_url
             else
-                button(id="btn-save") Create
+                button(class="btn border-primary" id="btn-save") Create
         script(src="/assets/app.js" type="text/javascript")

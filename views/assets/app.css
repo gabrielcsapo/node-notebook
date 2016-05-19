@@ -1,13 +1,18 @@
 .CodeMirror {
     height: auto;
+    margin-left:-30px;
 }
 .CodeMirror-gutters {
     background-color: transparent;
     border-right: 0;
 }
-
+.code-loading {
+    border: 1px solid #dedede;
+    padding: 10px;
+    margin-top: 5px;
+    display: none;
+}
 .code-response {
-    margin-left: 33px;
     border: 1px solid #dedede;
     padding: 10px;
     margin-top: 5px;
