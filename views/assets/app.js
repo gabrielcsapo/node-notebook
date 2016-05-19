@@ -1,7 +1,7 @@
 /*global CodeMirror */
 var session = location.pathname !== '/' ? location.pathname.replace('/', '') : Date.now();
 
-var editors = [];
+var editors = {};
 
 var parse = function(req) {
     var type = req.type;
@@ -85,13 +85,18 @@ var run = function(id, code) {
     }));
 }
 
+var deleteBlock = function(id) {
+    delete editors[id];
+    document.querySelector('.code-container').removeChild(document.getElementById(id+'-code-form').parentNode);
+}
+
 var createTextBlock = function(id, text) {
     var now = Date.now();
     var div = document.createElement('div');
     var html = '<br><br><div id="'+now+'-code-form" class="editor-form">' +
     '<textarea id="'+now+'-code" style="display: none"></textarea>' +
-    '<div id="'+now+'-code-response" class="code-response">' +
-    '</div><i id="'+now+'-code-actions" class="code-actions"><i class="fa fa-terminal" onclick="createCodeBlock(\''+(now)+'\');">&nbsp;&nbsp;</i><i class="fa fa-pencil" onclick="createTextBlock(\''+(now)+'\');">&nbsp;&nbsp;</i><i class="fa fa-trash-o">&nbsp;&nbsp;</i></i>' +
+    '<div id="'+now+'-code-response" class="code-response"></div>' +
+    '<i id="'+now+'-code-actions" class="code-actions"><i class="fa fa-terminal" onclick="createCodeBlock(\''+(now)+'\');">&nbsp;&nbsp;</i><i class="fa fa-pencil" onclick="createTextBlock(\''+(now)+'\');">&nbsp;&nbsp;</i><i class="fa fa-trash-o" onclick="deleteBlock(\''+(now)+'\');">&nbsp;&nbsp;</i></i>' +
     '</div><br><br>';
     div.innerHTML = html;
     if(id) {
@@ -105,7 +110,7 @@ var createTextBlock = function(id, text) {
     var editor = CodeMirror.fromTextArea(document.getElementById(now + '-code'), {
         mode: 'none'
     });
-    editors.push({type: 'text', editor: editor});
+    editors[now] = ({type: 'text', editor: editor});
     if(text) {
         editor.setValue(text);
     }
@@ -120,7 +125,7 @@ var createCodeBlock = function(id, script) {
     '<i id="'+now+'-code-tooltip" class="code-tooltip"><small>type code and press shift + enter to run</small></i>' +
     '<div id="'+now+'-code-response" class="code-response"></div>' +
     '<div id="'+now+'-code-loading" class="code-loading"><div class="spinner-overlay"><div class="spinner-wrapper"><div class="spinner spinner-info"></div></div></div></div>' +
-    '<i id="'+now+'-code-actions" class="code-actions"><i class="fa fa-terminal" onclick="createCodeBlock(\''+(now)+'\');">&nbsp;&nbsp;</i><i class="fa fa-pencil" onclick="createTextBlock(\''+(now)+'\');">&nbsp;&nbsp;</i><i class="fa fa-trash-o">&nbsp;&nbsp;</i></i>' +
+    '<i id="'+now+'-code-actions" class="code-actions"><i class="fa fa-terminal" onclick="createCodeBlock(\''+(now)+'\');">&nbsp;&nbsp;</i><i class="fa fa-pencil" onclick="createTextBlock(\''+(now)+'\');">&nbsp;&nbsp;</i><i class="fa fa-trash-o" onclick="deleteBlock(\''+(now)+'\');">&nbsp;&nbsp;</i></i>' +
     '</div><br><br>';
     div.innerHTML = html;
     if(id) {
@@ -135,7 +140,7 @@ var createCodeBlock = function(id, script) {
         mode: "javascript",
         lineNumbers: true
     });
-    editors.push({type: 'script', editor: editor});
+    editors[now] = ({type: 'script', editor: editor});
     if(script) {
         editor.setValue(script);
     }
@@ -185,12 +190,12 @@ var startup = function() {
 
     document.getElementById('btn-save').onclick = function() {
         var values = [];
-        editors.forEach(function(e) {
+        for(var key in editors) {
             values.push({
-                type: e.type,
-                value: e.editor.getValue()
+                type: editors[key].type,
+                value: editors[key].editor.getValue()
             });
-        });
+        }
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "/" + session);
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -205,11 +210,11 @@ var startup = function() {
     }
 
     document.getElementById('btn-run-all').onclick = function() {
-        editors.forEach(function(e) {
-            if(e.type == 'script') {
-                run(e.editor.id, e.editor.getValue());
+        for(var key in editors) {
+            if(editors[key].type == 'script') {
+                run(editors[key].editor.id, editors[key].editor.getValue());
             }
-        });
+        }
     }
 }
 
