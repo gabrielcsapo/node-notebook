@@ -1,6 +1,8 @@
 /*global CodeMirror, document, XMLHttpRequest */
 var session = location.pathname !== '/' ? location.pathname.replace('/', '') : Date.now();
 
+var editors = [];
+
 var parse = function(req) {
     var type = req.type;
     var response = req.result;
@@ -40,7 +42,7 @@ var parse = function(req) {
 
 var run = function(id, code) {
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/api/run");
+    xhr.open("POST", "/run");
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
@@ -75,6 +77,7 @@ var createTextBlock = function(id, text) {
     var editor = CodeMirror.fromTextArea(document.getElementById(now + '-code'), {
         mode: 'none'
     });
+    editors.push({type: 'text', editor: editor});
     if(text) {
         editor.setValue(text);
     }
@@ -103,6 +106,7 @@ var createCodeBlock = function(id, script) {
         mode: "javascript",
         lineNumbers: true
     });
+    editors.push({type: 'script', editor: editor});
     if(script) {
         editor.setValue(script);
     }
@@ -131,19 +135,44 @@ var startup = function() {
     }
 
     if (storedValues) {
-        JSON.parse(storedValues).forEach(function(v) {
-            switch(v.type) {
-                case 'script':
-                    var editor = createCodeBlock(undefined, v.value);
-                    run(editor.id, editor.getValue());
-                    break;
-                case 'text':
-                    createTextBlock(undefined, v.value);
-                    break;
-            }
-        });
+        if(JSON.parse(storedValues).length > 0) {
+            JSON.parse(storedValues).forEach(function(v) {
+                switch(v.type) {
+                    case 'script':
+                        var editor = createCodeBlock(undefined, v.value);
+                        run(editor.id, editor.getValue());
+                        break;
+                    case 'text':
+                        createTextBlock(undefined, v.value);
+                        break;
+                }
+            });
+        } else {
+            createCodeBlock();
+        }
     } else {
         createCodeBlock();
+    }
+
+    document.getElementById('btn-save').onclick = function() {
+        var values = [];
+        editors.forEach(function(e) {
+            values.push({
+                type: e.type,
+                value: e.editor.getValue()
+            });
+        });
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/" + session);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                window.location.href = '/' + session;
+            }
+        }
+        xhr.send(JSON.stringify({
+            values: values,
+        }));
     }
 }
 

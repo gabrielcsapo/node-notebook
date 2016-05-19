@@ -36,17 +36,33 @@ app.get('/', function(req, res) {
     res.render('index');
 });
 
-app.get('/:hash', function(req, res) {
-    var hash = req.params.hash;
-    res.render('index', {stored_values: JSON.stringify(datasource.get(hash))});
-});
-
-app.post('/api/run', function(req, res) {
+app.post('/run', function(req, res) {
     var session = req.body.session || Date.now();
     var script = req.body.script || req.rawBody.toString('utf8').replace('script=', '');
     vm.run(script, session, function(result) {
         res.send(result);
     });
+});
+
+app.get('/:hash', function(req, res) {
+    var hash = req.params.hash;
+    // TODO: share_url should be relative to the original url location
+    res.render('index', {
+        stored_values: JSON.stringify(datasource.get(hash)),
+        share_url: 'http://localhost/' + hash
+    });
+});
+
+app.post('/:hash', function(req, res) {
+    var hash = req.params.hash;
+    var values = req.body.values;
+    datasource.set(hash, values);
+    res.sendStatus(200);
+});
+
+app.get('/:hash/json', function(req, res) {
+    var hash = req.params.hash;
+    res.send(datasource.get(hash));
 });
 
 app.listen(port, function() {

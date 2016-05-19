@@ -10,7 +10,7 @@ describe('Sever', function() {
             'script': 'var moment=require("moment");moment().format("x");'
         };
         request(app)
-            .post('/api/run')
+            .post('/run')
             .type('json')
             .send(code)
             .expect(200)
@@ -27,12 +27,12 @@ describe('Sever', function() {
             });
     });
 
-    it('should test /api/run with simple math', function(done) {
+    it('should test /run with simple math', function(done) {
         var code = {
             'script': 'var number = 5+5;number;'
         };
         request(app)
-            .post('/api/run')
+            .post('/run')
             .type('json')
             .send(code)
             .expect(200)
@@ -53,7 +53,7 @@ describe('Sever', function() {
             'script': 'var c = function(callback) { callback("hello-world"); }; c(function(val) { console.log(val); });'
         };
         request(app)
-            .post('/api/run')
+            .post('/run')
             .type('json')
             .send(code)
             .expect(200)
@@ -64,6 +64,40 @@ describe('Sever', function() {
                 assert.isObject(res.body, 'response is an object');
                 assert.isString(res.body.time, 'time is a string');
                 assert.equal(res.body.trace[0], 'hello-world', 'response trace is hello-world');
+                done();
+            });
+    });
+
+    var now = Date.now();
+
+    it('should test the save functionality', function(done) {
+        request(app)
+            .post('/' + now)
+            .type('json')
+            .send({
+                values: [{type: "script", value: "var i = 4;"}, {type: "text", value: "you can use simple numbers?"}]
+            })
+            .expect(200)
+            .end(function(err, res) {
+                if (err) {
+                    throw err;
+                }
+                done();
+            });
+    });
+
+    it('should test the get functionality', function(done) {
+        request(app)
+            .get('/' + now + '/json')
+            .type('json')
+            .send({
+                values: [{type: "script", value: "var i = 4;"}, {type: "text", value: "you can use simple numbers?"}]
+            })
+            .expect(200)
+            .end(function(err, res) {
+                if (err) {
+                    throw err;
+                }
                 done();
             });
     });
