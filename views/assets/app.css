@@ -1,3 +1,23 @@
+hr {
+    display: block;
+    border: 0 solid #e0dedf;
+    border-bottom-width: 1px;
+    margin: 65px auto 10px auto;
+    max-width: 100%;
+    position: relative
+}
+hr:before {
+    content: '';
+    display: block;
+    width: 1em;
+    height: 1em;
+    background-color: #afc4ce;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    margin: -.5em;
+    box-shadow: 0 0 0 0.5em white;
+}
 .CodeMirror {
     height: auto;
     margin-left:-30px;
