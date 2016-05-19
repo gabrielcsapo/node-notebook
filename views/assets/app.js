@@ -41,7 +41,7 @@ var parse = function(req) {
                 break;
         }
     }
-    if(logs) {
+    if(logs && logs.length > 0) {
         var t = Date.now();
         html += '<div class="treeview"><ul>';
         html += '<li>';
@@ -61,6 +61,8 @@ var parse = function(req) {
 }
 
 var run = function(id, code) {
+    document.getElementById(id + '-code-loading').style.display = 'block';
+
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/run");
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -69,6 +71,7 @@ var run = function(id, code) {
             document.getElementById(id + '-code-response').innerHTML = parse(JSON.parse(xhr.responseText));
             document.getElementById(id + '-code-response').style.display = 'block';
             document.getElementById(id + '-code-tooltip').style.display = 'none';
+            document.getElementById(id + '-code-loading').style.display = 'none';
         }
     }
     xhr.send(JSON.stringify({
@@ -110,8 +113,9 @@ var createCodeBlock = function(id, script) {
     var html = '<br><br><div id="'+now+'-code-form" class="code-form">' +
     '<textarea id="'+now+'-code" style="display: none"></textarea>' +
     '<i id="'+now+'-code-tooltip" class="code-tooltip"><small>type code and press shift + enter to run</small></i>' +
-    '<div id="'+now+'-code-response" class="code-response">' +
-    '</div><i id="'+now+'-code-actions" class="code-actions"><i class="fa fa-terminal" onclick="createCodeBlock(\''+(now)+'\');">&nbsp;&nbsp;</i><i class="fa fa-pencil" onclick="createTextBlock(\''+(now)+'\');">&nbsp;&nbsp;</i><i class="fa fa-trash-o">&nbsp;&nbsp;</i></i>' +
+    '<div id="'+now+'-code-response" class="code-response"></div>' +
+    '<div id="'+now+'-code-loading" class="code-loading"><div class="spinner-overlay"><div class="spinner-wrapper"><div class="spinner spinner-info"></div></div></div></div>' +
+    '<i id="'+now+'-code-actions" class="code-actions"><i class="fa fa-terminal" onclick="createCodeBlock(\''+(now)+'\');">&nbsp;&nbsp;</i><i class="fa fa-pencil" onclick="createTextBlock(\''+(now)+'\');">&nbsp;&nbsp;</i><i class="fa fa-trash-o">&nbsp;&nbsp;</i></i>' +
     '</div><br><br>';
     div.innerHTML = html;
     if(id) {
