@@ -174,6 +174,14 @@ var startup = function() {
             values: values
         }));
     }
+
+    document.getElementById('btn-run-all').onclick = function() {
+        editors.forEach(function(e) {
+            if(e.type == 'script') {
+                run(e.editor.id, e.editor.getValue());
+            }
+        });
+    }
 }
 
 startup();

@@ -13,11 +13,12 @@ html
         div(class="code-container" data-stored-values=stored_values)
             if (share_url)
                 button(id="btn-save") Save
+                button(id="btn-run-all") Run
                 br
                 br
                 pre
                     small
-                        span share url : 
+                        span share url :
                             span=share_url
             else
                 button(id="btn-save") Create
