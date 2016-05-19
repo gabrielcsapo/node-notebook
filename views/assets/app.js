@@ -171,7 +171,7 @@ var startup = function() {
             }
         }
         xhr.send(JSON.stringify({
-            values: values,
+            values: values
         }));
     }
 }

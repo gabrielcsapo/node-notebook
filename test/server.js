@@ -78,7 +78,7 @@ describe('Sever', function() {
                 values: [{type: "script", value: "var i = 4;"}, {type: "text", value: "you can use simple numbers?"}]
             })
             .expect(200)
-            .end(function(err, res) {
+            .end(function(err) {
                 if (err) {
                     throw err;
                 }
@@ -94,7 +94,7 @@ describe('Sever', function() {
                 values: [{type: "script", value: "var i = 4;"}, {type: "text", value: "you can use simple numbers?"}]
             })
             .expect(200)
-            .end(function(err, res) {
+            .end(function(err) {
                 if (err) {
                     throw err;
                 }

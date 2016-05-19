@@ -15,7 +15,7 @@ try {
 app.set('view engine', 'pug');
 app.use(compression());
 
-app.use('/assets', express.static(__dirname + '/assets'));
+app.use('/assets', express.static(__dirname + '/views/assets'));
 app.use('/assets/marked', express.static(__dirname + '/node_modules/marked'));
 app.use('/assets/codemirror', express.static(__dirname + '/node_modules/codemirror'));
 app.use('/assets/normalize', express.static(__dirname + '/node_modules/normalize.css'));
