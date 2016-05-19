@@ -1,6 +1,10 @@
 /*global CodeMirror, document, XMLHttpRequest */
-var session = Date.now();
-var parse = function(response, type) {
+var session = location.pathname !== '/' ? location.pathname.replace('/', '') : Date.now();
+
+var parse = function(req) {
+    var type = req.type;
+    var response = req.result;
+
     var html = '';
     switch (type) {
         case 'Array':
@@ -19,10 +23,12 @@ var parse = function(response, type) {
             html += '<ul>';
             html += '</li>';
             html += '</ul></div>';
+            break;
         default:
             html += '<label for="'+t+'">';
             html += '<span>' + type + ' ('+response+')</span>';
             html += '</label>';
+            break;
     }
     return html;
 }
@@ -33,9 +39,9 @@ var run = function(id, code) {
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
-            document.getElementById(id + '-code-response').innerHTML = parse(JSON.parse(xhr.responseText).result, JSON.parse(xhr.responseText).type);
+            document.getElementById(id + '-code-response').innerHTML = parse(JSON.parse(xhr.responseText));
             document.getElementById(id + '-code-response').style.display = 'block';
-            document.querySelector('.' + id + '-code-tooltip').style.display = 'none';
+            document.getElementById(id + '-code-tooltip').style.display = 'none';
         }
     }
     xhr.send(JSON.stringify({
@@ -44,7 +50,7 @@ var run = function(id, code) {
     }));
 }
 
-var createTextBlock = function(id) {
+var createTextBlock = function(id, text) {
     var now = Date.now();
     var div = document.createElement('div');
     var html = '<br><br><div id="'+now+'-code-form" class="editor-form">' +
@@ -54,7 +60,6 @@ var createTextBlock = function(id) {
     '</div><br><br>';
     div.innerHTML = html;
     if(id) {
-        console.log('#' + id + '-code-form');
         document.getElementById(id + '-code-form').parentNode.insertBefore(
             div,
             document.getElementById(id + '-code-form').parentNode.nextSibling
@@ -65,9 +70,13 @@ var createTextBlock = function(id) {
     var editor = CodeMirror.fromTextArea(document.getElementById(now + '-code'), {
         mode: 'none'
     });
+    if(text) {
+        editor.setValue(text);
+    }
+    return editor;
 }
 
-var createCodeBlock = function(id) {
+var createCodeBlock = function(id, script) {
     var now = Date.now();
     var div = document.createElement('div');
     var html = '<br><br><div id="'+now+'-code-form" class="code-form">' +
@@ -78,7 +87,6 @@ var createCodeBlock = function(id) {
     '</div><br><br>';
     div.innerHTML = html;
     if(id) {
-        console.log('#' + id + '-code-form');
         document.getElementById(id + '-code-form').parentNode.insertBefore(
             div,
             document.getElementById(id + '-code-form').parentNode.nextSibling
@@ -86,10 +94,18 @@ var createCodeBlock = function(id) {
     } else {
         document.querySelector('.code-container').appendChild(div);
     }
-    console.log(now + '-code');
     var editor = CodeMirror.fromTextArea(document.getElementById(now + '-code'), {
         mode: "javascript",
         lineNumbers: true
+    });
+    if(script) {
+        editor.setValue(script);
+    }
+    editor.on('keyup', function(cm, e) {
+        if (editor.getValue().length == 0) {
+            document.getElementById(now + '-code-tooltip').style.display = 'block';
+            document.getElementById(now + '-code-response').style.display = 'none';
+        }
     });
     editor.on('keydown', function(cm, e) {
         if (e.keyIdentifier == 'Enter' && e.shiftKey == true) {
@@ -97,6 +113,36 @@ var createCodeBlock = function(id) {
             run(now, editor.getValue());
         }
     });
+    editor.id = now;
+    return editor;
 }
 
-createCodeBlock();
+var startup = function() {
+    console.log('testing');
+    console.log(JSON.stringify(document.querySelector('.code-container').dataset));
+    console.log(document.querySelector('.code-container').dataset['storedValues']);
+    var storedValues;
+    if (/PhantomJS/.test(window.navigator.userAgent)) {
+        storedValues = document.querySelector('.code-container').dataset['storedValues']
+    } else {
+        storedValues = document.querySelector('.code-container').dataset['stored-values'];
+    }
+
+    if (storedValues) {
+        JSON.parse(storedValues).forEach(function(v) {
+            switch(v.type) {
+                case 'script':
+                    var editor = createCodeBlock(undefined, v.value);
+                    run(editor.id, editor.getValue());
+                    break;
+                case 'text':
+                    createTextBlock(undefined, v.value);
+                    break;
+            }
+        });
+    } else {
+        createCodeBlock();
+    }
+}
+
+startup();

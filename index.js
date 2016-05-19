@@ -5,11 +5,12 @@ var app = express();
 var path = require('path');
 var fs = require('fs');
 var vm = require('./lib/vm');
+var datasource = require('./lib/datasource');
 var port = process.env.PORT || 3000;
 
 try {
     fs.mkdirSync(path.resolve(__dirname, 'sandbox'));
-} catch(ex) { /*don't care*/ }
+} catch (ex) { /*don't care*/ }
 
 app.set('view engine', 'pug');
 app.use(compression());
@@ -31,8 +32,13 @@ app.use(bodyParser.json({
     }
 }));
 
-app.get('/', function (req, res) {
-  res.render('index');
+app.get('/', function(req, res) {
+    res.render('index');
+});
+
+app.get('/:hash', function(req, res) {
+    var hash = req.params.hash;
+    res.render('index', {stored_values: JSON.stringify(datasource.get(hash))});
 });
 
 app.post('/api/run', function(req, res) {
