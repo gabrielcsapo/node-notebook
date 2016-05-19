@@ -12,6 +12,11 @@
     margin-top: 5px;
     display: none;
 }
+.editor-form {
+    font-size: 18px;
+    width: 96%;
+    float: right;
+}
 .code-tooltip {
     margin-left:33px;
 }

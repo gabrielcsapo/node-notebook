@@ -44,15 +44,37 @@ var run = function(id, code) {
     }));
 }
 
+var createTextBlock = function(id) {
+    var now = Date.now();
+    var div = document.createElement('div');
+    var html = '<br><br><div id="'+now+'-code-form" class="editor-form">' +
+    '<textarea id="'+now+'-code" style="display: none"></textarea>' +
+    '<div id="'+now+'-code-response" class="code-response">' +
+    '</div><i id="'+now+'-code-actions" class="code-actions"><i class="fa fa-terminal" onclick="createCodeBlock(\''+(now)+'\');">&nbsp;&nbsp;</i><i class="fa fa-pencil" onclick="createTextBlock(\''+(now)+'\');">&nbsp;&nbsp;</i><i class="fa fa-trash-o">&nbsp;&nbsp;</i></i>' +
+    '</div><br><br>';
+    div.innerHTML = html;
+    if(id) {
+        console.log('#' + id + '-code-form');
+        document.getElementById(id + '-code-form').parentNode.insertBefore(
+            div,
+            document.getElementById(id + '-code-form').parentNode.nextSibling
+        );
+    } else {
+        document.querySelector('.code-container').appendChild(div);
+    }
+    var editor = CodeMirror.fromTextArea(document.getElementById(now + '-code'), {
+        mode: 'none'
+    });
+}
+
 var createCodeBlock = function(id) {
-    console.log(id);
     var now = Date.now();
     var div = document.createElement('div');
     var html = '<br><br><div id="'+now+'-code-form" class="code-form">' +
     '<textarea id="'+now+'-code" style="display: none"></textarea>' +
     '<i id="'+now+'-code-tooltip" class="code-tooltip"><small>type code and press shift + enter to run</small></i>' +
     '<div id="'+now+'-code-response" class="code-response">' +
-    '</div><i id="'+now+'-code-actions" class="code-actions"><i class="fa fa-terminal">&nbsp;&nbsp;</i><i class="fa fa-pencil" onclick="createCodeBlock(\''+(now)+'\');">&nbsp;&nbsp;</i><i class="fa fa-trash-o">&nbsp;&nbsp;</i></i>' +
+    '</div><i id="'+now+'-code-actions" class="code-actions"><i class="fa fa-terminal" onclick="createCodeBlock(\''+(now)+'\');">&nbsp;&nbsp;</i><i class="fa fa-pencil" onclick="createTextBlock(\''+(now)+'\');">&nbsp;&nbsp;</i><i class="fa fa-trash-o">&nbsp;&nbsp;</i></i>' +
     '</div><br><br>';
     div.innerHTML = html;
     if(id) {
@@ -65,14 +87,14 @@ var createCodeBlock = function(id) {
         document.querySelector('.code-container').appendChild(div);
     }
     console.log(now + '-code');
-    var codeEditor = CodeMirror.fromTextArea(document.getElementById(now + '-code'), {
+    var editor = CodeMirror.fromTextArea(document.getElementById(now + '-code'), {
         mode: "javascript",
         lineNumbers: true
     });
-    codeEditor.on('keydown', function(cm, e) {
+    editor.on('keydown', function(cm, e) {
         if (e.keyIdentifier == 'Enter' && e.shiftKey == true) {
             e.preventDefault();
-            run(now, codeEditor.getValue());
+            run(now, editor.getValue());
         }
     });
 }
