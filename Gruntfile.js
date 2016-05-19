@@ -8,9 +8,9 @@ module.exports = function(grunt) {
                     path: 'screenshots',
                     files: [{
                             type: 'remote',
-                            src: 'http://localhost:3000',
+                            src: 'http://localhost:3000/test',
                             dest: 'repl.png',
-                            delay: '1000'
+                            delay: '5000'
                     }],
                     viewport: ['1920x1080', '1024x768', '640x960', '320x480']
                 }
