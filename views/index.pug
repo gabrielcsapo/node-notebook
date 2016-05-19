@@ -11,4 +11,14 @@ html
         script(src="/assets/codemirror/mode/javascript/javascript.js" type="text/javascript")
     body
         div(class="code-container" data-stored-values=stored_values)
+            if (share_url)
+                button(id="btn-save") Save
+                br
+                br
+                pre
+                    small
+                        span share url : 
+                            span=share_url
+            else
+                button(id="btn-save") Create
         script(src="/assets/app.js" type="text/javascript")
