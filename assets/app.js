@@ -4,30 +4,36 @@ var session = location.pathname !== '/' ? location.pathname.replace('/', '') : D
 var parse = function(req) {
     var type = req.type;
     var response = req.result;
-
+    var error = req.error;
     var html = '';
-    switch (type) {
-        case 'Array':
-            var t = Date.now();
-            html += '<div class="treeview"><ul>';
-            html += '<li>';
-            html += '<input type="checkbox" id="'+t+'">';
-            html += '<label for="'+t+'">';
-            html += '<span>Array ('+response.length+')</span>';
-            html += '</label>';
-            html += '<ul>';
-            response.forEach(function(value) {
-                html += '<li><span>' + value + '</span></li>';
-            });
-            html += '<ul>';
-            html += '</li>';
-            html += '</ul></div>';
-            break;
-        default:
-            html += '<label for="'+t+'">';
-            html += '<span>' + type + ' ('+response+')</span>';
-            html += '</label>';
-            break;
+    if(error) {
+        html += '<label>';
+        html += '<span> error : ('+error+')</span>';
+        html += '</label>';
+    } else {
+        switch (type) {
+            case 'Array':
+                var t = Date.now();
+                html += '<div class="treeview"><ul>';
+                html += '<li>';
+                html += '<input type="checkbox" id="'+t+'">';
+                html += '<label for="'+t+'">';
+                html += '<span>Array ('+response.length+')</span>';
+                html += '</label>';
+                html += '<ul>';
+                response.forEach(function(value) {
+                    html += '<li><span>' + value + '</span></li>';
+                });
+                html += '<ul>';
+                html += '</li>';
+                html += '</ul></div>';
+                break;
+            default:
+                html += '<label for="'+t+'">';
+                html += '<span>' + type + ' ('+response+')</span>';
+                html += '</label>';
+                break;
+        }
     }
     return html;
 }
