@@ -2,7 +2,7 @@ hr {
     display: block;
     border: 0 solid #e0dedf;
     border-bottom-width: 1px;
-    margin: 65px auto 10px auto;
+    margin: 50px auto 10px auto;
     max-width: 100%;
     position: relative
 }
@@ -25,6 +25,9 @@ hr:before {
 .CodeMirror-gutters {
     background-color: transparent;
     border-right: 0;
+}
+pre {
+    background-color: transparent;
 }
 .code-loading {
     border: 1px solid #dedede;
@@ -50,6 +53,9 @@ hr:before {
     float: right;
     margin-top: 5px;
 }
+.code-actions > .fa-play {
+    display: none;
+}
 .code-container {
     width:50%;
     margin:0 auto;
@@ -57,12 +63,38 @@ hr:before {
 }
 @media (width: 320px) {
     .code-container {
-        width: 100%;
+        width: 96%;
+        padding-left: 2%;
+        padding-right: 2%;
+        margin-top:10px;
+        padding-bottom: 2%;
+        padding-bottom: 2%;
+    }
+    .CodeMirror {
+        margin-left: 0px;
+    }
+    .code-actions {
+        width:100%;
+        text-align: center;
+    }
+    .code-actions > * {
+        font-size: 28px;
+    }
+    .code-actions > .fa-play {
+        display: inline-block;
+    }
+    .code-tooltip {
+        width:100%;
     }
 }
 @media (width: 640px) {
     .code-container {
-        width: 100%;
+        width: 96%;
+        padding-left: 2%;
+        padding-right: 2%;
+    }
+    .code-actions > .fa-play {
+        display: inline-block;
     }
 }
 

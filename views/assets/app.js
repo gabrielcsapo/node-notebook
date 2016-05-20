@@ -1,6 +1,8 @@
 /*global CodeMirror */
 var session = location.pathname !== '/' ? location.pathname.replace('/', '') : Date.now();
 
+var total_time = 0;
+
 var editors = {};
 
 var parse = function(req) {
@@ -12,6 +14,7 @@ var parse = function(req) {
     var html = '';
 
     if(time) {
+        total_time += Math.floor(time.replace('ms', ''));
         html += '<span style="float: right;margin-top: -5px;" class="badge badge-default">' + time + '</span>';
     }
     if(error) {
@@ -65,7 +68,8 @@ var parse = function(req) {
     return html;
 }
 
-var run = function(id, code) {
+var run = function(id, callback) {
+    var code = editors[id].editor.getValue();
     document.getElementById(id + '-code-loading').style.display = 'block';
 
     var xhr = new XMLHttpRequest();
@@ -77,6 +81,7 @@ var run = function(id, code) {
             document.getElementById(id + '-code-response').style.display = 'block';
             document.getElementById(id + '-code-tooltip').style.display = 'none';
             document.getElementById(id + '-code-loading').style.display = 'none';
+            callback();
         }
     }
     xhr.send(JSON.stringify({
@@ -127,7 +132,7 @@ var createCodeBlock = function(id, script) {
     '<i id="'+now+'-code-tooltip" class="code-tooltip"><small>type code and press shift + enter to run</small></i>' +
     '<div id="'+now+'-code-response" class="code-response"></div>' +
     '<div id="'+now+'-code-loading" class="code-loading"><div class="spinner-overlay"><div class="spinner-wrapper"><div class="spinner spinner-info"></div></div></div></div>' +
-    '<i id="'+now+'-code-actions" class="code-actions"><i class="fa fa-terminal" onclick="createCodeBlock(\''+(now)+'\');">&nbsp;&nbsp;</i><i class="fa fa-pencil" onclick="createTextBlock(\''+(now)+'\');">&nbsp;&nbsp;</i><i class="fa fa-trash-o" onclick="deleteBlock(\''+(now)+'\');">&nbsp;&nbsp;</i></i>' +
+    '<i id="'+now+'-code-actions" class="code-actions"><i class="fa fa-play" onclick="run(\''+(now)+'\');">&nbsp;&nbsp;</i><i class="fa fa-terminal" onclick="createCodeBlock(\''+(now)+'\');">&nbsp;&nbsp;</i><i class="fa fa-pencil" onclick="createTextBlock(\''+(now)+'\');">&nbsp;&nbsp;</i><i class="fa fa-trash-o" onclick="deleteBlock(\''+(now)+'\');">&nbsp;&nbsp;</i></i>' +
     '</div><br><br>';
     div.innerHTML = html;
     if(id) {
@@ -155,20 +160,35 @@ var createCodeBlock = function(id, script) {
     editor.on('keydown', function(cm, e) {
         if (e.keyIdentifier == 'Enter' && e.shiftKey == true) {
             e.preventDefault();
-            run(now, editor.getValue());
+            run(now);
         }
     });
     editor.id = now;
     return editor;
 }
 
-var startup = function() {
-    var storedValues;
-    if (/PhantomJS/.test(window.navigator.userAgent)) {
-        storedValues = document.querySelector('.code-container').dataset['storedValues']
-    } else {
-        storedValues = document.querySelector('.code-container').dataset['stored-values'];
+var run_all = function() {
+    total_time = 0;
+    var count = 0;
+    var done = function() {
+        if(count == 0) {
+            document.getElementById('total-time').innerHTML = total_time + 'ms';
+        }
     }
+    for(var key in editors) {
+        if(editors[key].type == 'script') {
+            count++;
+            run(editors[key].editor.id, function() {
+                count--;
+                done();
+            });
+        }
+    }
+}
+
+var startup = function() {
+    var storedValues = document.querySelector('.code-container').dataset['storedValues'] ||
+                       document.querySelector('.code-container').dataset['stored-values']
 
     if (storedValues) {
         if(JSON.parse(storedValues).length > 0) {
@@ -176,13 +196,13 @@ var startup = function() {
                 switch(v.type) {
                     case 'script':
                         var editor = createCodeBlock(undefined, v.value);
-                        run(editor.id, editor.getValue());
                         break;
                     case 'text':
                         createTextBlock(undefined, v.value);
                         break;
                 }
             });
+            run_all();
         } else {
             createCodeBlock();
         }
@@ -212,11 +232,7 @@ var startup = function() {
     }
 
     document.getElementById('btn-run-all').onclick = function() {
-        for(var key in editors) {
-            if(editors[key].type == 'script') {
-                run(editors[key].editor.id, editors[key].editor.getValue());
-            }
-        }
+        run_all();
     }
 }
 

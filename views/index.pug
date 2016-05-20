@@ -2,6 +2,7 @@ doctype html
 html
     head
         title node-notebook
+        meta(name="viewport" content="width=device-width, initial-scale=1")
         link(rel="stylesheet" href="/assets/font-awesome/css/font-awesome.css")
         link(rel="stylesheet" href="/assets/psychic-ui/psychic-min.css")
         link(rel="stylesheet" href="/assets/codemirror/lib/codemirror.css")
@@ -10,6 +11,7 @@ html
         script(src="/assets/codemirror/lib/codemirror.js" type="text/javascript")
         script(src="/assets/codemirror/mode/javascript/javascript.js" type="text/javascript")
     body
+        div.badge.badge-default(id="total-time" style="margin:15px;position:absolute;right:0;top:0;")
         div(class="code-container" data-stored-values=stored_values)
             if (share_url)
                 button(class="btn border-primary" id="btn-save") Save
@@ -18,7 +20,7 @@ html
                 br
                 pre
                     small
-                        span share url :
+                        span share url :&nbsp;
                             span=share_url
             else
                 button(class="btn border-primary" id="btn-save") Create
