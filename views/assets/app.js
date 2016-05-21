@@ -195,7 +195,7 @@ var startup = function() {
             JSON.parse(storedValues).forEach(function(v) {
                 switch(v.type) {
                     case 'script':
-                        var editor = createCodeBlock(undefined, v.value);
+                        createCodeBlock(undefined, v.value);
                         break;
                     case 'text':
                         createTextBlock(undefined, v.value);
