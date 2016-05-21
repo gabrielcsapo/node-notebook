@@ -7,6 +7,7 @@ var fs = require('fs');
 var figlet = require('figlet');
 var vm = require('./lib/vm');
 var datasource = require('./lib/datasource');
+
 var port = process.env.PORT || 3000;
 
 try {
@@ -36,6 +37,10 @@ app.get('/', function(req, res) {
     res.render('index');
 });
 
+app.get('/notebook', function(req, res) {
+    res.render('notebook');
+});
+
 app.post('/run', function(req, res) {
     var session = req.body.session || Date.now();
     var script = req.body.script || req.rawBody.toString('utf8').replace('script=', '');
@@ -44,23 +49,23 @@ app.post('/run', function(req, res) {
     });
 });
 
-app.get('/:hash', function(req, res) {
+app.get('/notebook/:hash', function(req, res) {
     var hash = req.params.hash;
     // TODO: share_url should be relative to the original url location
-    res.render('index', {
+    res.render('notebook', {
         stored_values: JSON.stringify(datasource.get(hash)),
         share_url: 'http://localhost/' + hash
     });
 });
 
-app.post('/:hash', function(req, res) {
+app.post('/notebook/:hash', function(req, res) {
     var hash = req.params.hash;
     var values = req.body.values;
     datasource.set(hash, values);
     res.sendStatus(200);
 });
 
-app.get('/:hash/json', function(req, res) {
+app.get('/notebook/:hash/json', function(req, res) {
     var hash = req.params.hash;
     res.send(datasource.get(hash));
 });

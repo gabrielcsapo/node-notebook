@@ -3,33 +3,127 @@ html
     head
         title node-notebook
         meta(name="viewport" content="width=device-width, initial-scale=1")
+        link(rel="stylesheet" href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css")
         link(rel="stylesheet" href="/assets/font-awesome/css/font-awesome.css")
-        link(rel="stylesheet" href="/assets/psychic-ui/psychic-min.css")
-        link(rel="stylesheet" href="/assets/codemirror/lib/codemirror.css")
-        link(rel="stylesheet" href="/assets/app.css")
-        script(src="/assets/marked/lib/marked.js" type="text/javascript")
-        script(src="/assets/codemirror/lib/codemirror.js" type="text/javascript")
-        script(src="/assets/codemirror/mode/javascript/javascript.js" type="text/javascript")
+        style
+            include ../node_modules/psychic-ui/psychic-min.css
+        style
+            include assets/app.css
+        style
+            include assets/index.css
     body
-        div.badge.badge-default(id="total-time" style="margin:15px;position:absolute;right:0;top:0;")
-        div(class="code-container" data-stored-values=stored_values)
-            if (share_url)
-                button(class="btn border-primary" id="btn-save") Save
-                button(class="btn border-default pull-right" id="btn-run-all") Run
+        div.navbar
+            div.container
+                div.navbar-title(style="margin-top:35px;") node-notebook
+                div.nav
+                    a(href="#")
+                        i(class="fa fa-3x fa-github")
+        div.grid
+            div.col-2-12
+            div.col-8-12(style="position:relative;padding-bottom:80px;")
+
+                button.btn.border-primary.pull-right create a notebook
+
+                h6 module &nbsp;
+                    small var notebook = (require('node-notebook'))
+
+                h4
+                    small > run = function(script=required, session=optional, callback=required, error, type)
+
+                pre.code
+                    |notebook.run("var moment=require('moment');moment().format('x');", function(result) {
+                    |    // result = { trace: [], result: '\'1462858310879\'', type: 'String' }
+                    |});
                 br
+                h4
+                    small > install = function(dir, module, callback)
+                pre.code
+                    |notebook.install('sandbox/install', 'moment', function(){
+                    |    assert.isOk(fs.existsSync('sandbox/install/node_modules/moment/package.json'));
+                    |    done();
+                    |});
                 br
+                h4
+                    small > type = function(value)
+                pre.code
+                    |var type = notebook.type({});
+                    |assert.equal(type, 'Object');
+                br
+                hr
+                br
+
+                h6 api &nbsp;
+                    small (npm start)
+
+                h4
+                    small > /api/run
+
+                pre.code
+                    | curl -X POST localhost:3000/api/run --data "script=var moment=require('moment');moment().format('x');"
+
                 pre
-                    small
-                        span share url :&nbsp;
-                            span=share_url
-            else
-                button(class="btn border-primary" id="btn-save") Create
-            hr
-        script(src="/assets/app.js" type="text/javascript")
-        div.navbar.navbar-center
-            div.container.text-center
-                div.text-black
-                    a(href="https://github.com/gabrielcsapo/node-notebook" class="text-primary")
-                        i(class="fa fa-github") &nbsp; node-notebook &nbsp;
-                    span created with 🖕 by &nbsp;
-                        a(href="https://github.com/gabrielcsapo" class="text-primary") @gabrielcsapo
+                    | {
+                    |    "trace": [],
+                    |    "result": "'1460177101199'",
+                    |    "type": "String"
+                    | }
+
+                h4
+                    small > /notebook/:hash/json
+
+                pre.code
+                    | curl -X GET localhost:3000/notebook/example/json
+
+                pre
+                    |[
+                    |    {
+                    |        "type": "script",
+                    |        "value": "var i = 5;"
+                    |    },
+                    |    {
+                    |        "type": "text",
+                    |        "value": "you can use simple numbers?"
+                    |    },
+                    |    {
+                    |        "type": "script",
+                    |        "value": "i;"
+                    |    },
+                    |    {
+                    |        "type": "text",
+                    |        "value": "you can even show arrays"
+                    |    },
+                    |    {
+                    |        "type": "script",
+                    |        "value": "var array = [1,2,3];"
+                    |    },
+                    |    {
+                    |        "type": "script",
+                    |        "value": "array;"
+                    |    },
+                    |    {
+                    |        "type": "text",
+                    |        "value": "hey look errors"
+                    |    },
+                    |    {
+                    |        "type": "script",
+                    |        "value": "d;"
+                    |    },
+                    |    {
+                    |        "type": "text",
+                    |        "value": "console statements appear"
+                    |    },
+                    |    {
+                    |        "type": "script",
+                    |        "value": "for(var i = 0; i < 5; i++) { console.log(i); }"
+                    |    }
+                    |]
+
+                div.navbar.navbar-center.footer
+                    div.container.text-center
+                        div.text-black
+                            a(href="https://github.com/gabrielcsapo/node-notebook" class="text-primary")
+                                i(class="fa fa-github") &nbsp; node-notebook &nbsp;
+                            span created with 🖕 by &nbsp;
+                                a(href="https://github.com/gabrielcsapo" class="text-primary") @gabrielcsapo
+
+            div.col-2-12

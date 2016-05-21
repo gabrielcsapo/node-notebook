@@ -1,4 +1,5 @@
 var assert = require('chai').assert;
+var fs = require('fs');
 var notebook = require('../lib/vm');
 
 describe('Module', function() {
@@ -48,6 +49,18 @@ describe('Module', function() {
             assert.equal(result.type, 'String', 'result type is string');
             done();
         });
+    });
+
+    it('should test the install function', function(done) {
+        notebook.install('sandbox/install', 'moment', function(){
+            assert.isOk(fs.existsSync('sandbox/install/node_modules/moment/package.json'));
+            done();
+        });
+    });
+
+    it('should test the type function', function() {
+        var type = notebook.type({});
+        assert.equal(type, 'Object');
     });
 
 });

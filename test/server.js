@@ -27,7 +27,7 @@ describe('Sever', function() {
             });
     });
 
-    it('should test /run with simple math', function(done) {
+    it('should test /api/run with simple math', function(done) {
         var code = {
             'script': 'var number = 5+5;number;'
         };
@@ -72,7 +72,7 @@ describe('Sever', function() {
 
     it('should test the save functionality', function(done) {
         request(app)
-            .post('/' + now)
+            .post('/notebook/' + now)
             .type('json')
             .send({
                 values: [{type: "script", value: "var i = 4;"}, {type: "text", value: "you can use simple numbers?"}]
@@ -88,7 +88,7 @@ describe('Sever', function() {
 
     it('should test the get functionality', function(done) {
         request(app)
-            .get('/' + now + '/json')
+            .get('/notebook/' + now + '/json')
             .type('json')
             .send({
                 values: [{type: "script", value: "var i = 4;"}, {type: "text", value: "you can use simple numbers?"}]

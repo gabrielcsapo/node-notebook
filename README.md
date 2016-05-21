@@ -11,31 +11,3 @@
 ```
 npm install
 ```
-
-## usage
-
-> module (require('node-notebook'))
-
-```javascript
-require('node-notebook').run("var moment=require('moment');moment().format('x');", function(result) {
-    // result = { trace: [], result: '\'1462858310879\'', type: 'String' }
-});
-```
-
-> server (node index.js)
-
-_synchronous_
-
-```bash
-curl -X POST localhost:3000/api/run --data "script=var moment=require('moment');moment().format('x');"
-```
-
-*result*
-
-```javascript
-{
-    "trace": [],
-    "result": "'1460177101199'",
-    "type": "String"
-}
-```
