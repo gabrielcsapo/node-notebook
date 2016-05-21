@@ -22,7 +22,8 @@ html
             div.col-2-12
             div.col-8-12(style="position:relative;padding-bottom:80px;")
 
-                button.btn.border-primary.pull-right create a notebook
+                if(!presentation)
+                    button.btn.border-primary.pull-right create a notebook
 
                 h6 module &nbsp;
                     small var notebook = (require('node-notebook'))

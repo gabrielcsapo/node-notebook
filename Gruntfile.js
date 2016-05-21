@@ -7,7 +7,7 @@ module.exports = function(grunt) {
             compile: {
                 options: {
                     data: {
-                        debug: false
+                        presentation: true
                     }
                 },
                 files: {
@@ -23,7 +23,7 @@ module.exports = function(grunt) {
                         type: 'remote',
                         src: 'http://localhost:3000',
                         dest: 'intro.png',
-                        delay: '3000'
+                        delay: '500'
                     }, {
                         type: 'remote',
                         src: 'http://localhost:3000/example',
