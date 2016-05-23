@@ -8,7 +8,6 @@ html
         link(rel="stylesheet" href="/assets/codemirror/lib/codemirror.css")
         link(rel="stylesheet" href="/assets/app.css")
         link(rel="stylesheet" href="/assets/notebook.css")
-        script(src="/assets/marked/lib/marked.js" type="text/javascript")
         script(src="/assets/codemirror/lib/codemirror.js" type="text/javascript")
         script(src="/assets/codemirror/mode/javascript/javascript.js" type="text/javascript")
     body
@@ -26,11 +25,11 @@ html
             else
                 button(class="btn border-primary" id="btn-save") Create
             hr
+            div.navbar.footer
+                div.container.text-center
+                    div.text-black
+                        a(href="https://github.com/gabrielcsapo/node-notebook" class="text-primary")
+                            i(class="fa fa-github") &nbsp; node-notebook &nbsp;
+                        span created with 🖕 by &nbsp;
+                            a(href="https://github.com/gabrielcsapo" class="text-primary") @gabrielcsapo
         script(src="/assets/notebook.js" type="text/javascript")
-        div.navbar.navbar-center.footer
-            div.container.text-center
-                div.text-black
-                    a(href="https://github.com/gabrielcsapo/node-notebook" class="text-primary")
-                        i(class="fa fa-github") &nbsp; node-notebook &nbsp;
-                    span created with 🖕 by &nbsp;
-                        a(href="https://github.com/gabrielcsapo" class="text-primary") @gabrielcsapo

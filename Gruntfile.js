@@ -26,7 +26,7 @@ module.exports = function(grunt) {
                         delay: '500'
                     }, {
                         type: 'remote',
-                        src: 'http://localhost:3000/example',
+                        src: 'http://localhost:3000/notebook/example',
                         dest: 'stored.png',
                         delay: '3000'
                     }, {

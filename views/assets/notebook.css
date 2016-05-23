@@ -60,6 +60,8 @@ pre {
     width:50%;
     margin:0 auto;
     margin-top:60px;
+    padding-bottom: 80px;
+    position: relative;
 }
 @media (width: 320px) {
     .code-container {
