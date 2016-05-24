@@ -4,27 +4,58 @@ var session = location.pathname !== '/' ? location.pathname.replace('/', '') : D
 var total_time = 0;
 var editors = {};
 
+var titleCase = function(str) {
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
+
 var createTree = function(response, type, title) {
     var html = '';
 
     switch(type) {
         case 'Array':
-        var t = Date.now();
-        title = title || 'Array';
-        html += '<div class="treeview"><ul>';
-        html += '<li>';
-        html += '<input type="checkbox" id="'+t+'">';
-        html += '<label for="'+t+'">';
-        html += '<span> '+ title +' ('+response.length+')</span>';
-        html += '</label>';
-        html += '<ul>';
-        response.forEach(function(value) {
-            html += '<li><span>' + value + '</span></li>';
-        });
-        html += '<ul>';
-        html += '</li>';
-        html += '</ul></div>';
-        break;
+            var t = Date.now();
+            title = title || 'Array';
+            html += '<div class="treeview"><ul>';
+            html += '<li>';
+            html += '<input type="checkbox" id="'+t+'">';
+            html += '<label for="'+t+'">';
+            html += '<span> '+ title +' ('+response.length+')</span>';
+            html += '</label>';
+            html += '<ul>';
+            response.forEach(function(value) {
+                html += '<li><span>' + value + '</span></li>';
+            });
+            html += '<ul>';
+            html += '</li>';
+            html += '</ul></div>';
+            break;
+        case 'Object':
+            var t = Date.now();
+            title = title || 'Object';
+            html += '<div class="treeview"><ul>';
+            html += '<li>';
+            html += '<input type="checkbox" id="'+t+'">';
+            html += '<label for="'+t+'">';
+            html += '<span> '+ title +' ('+Object.keys(response).length+')</span>';
+            html += '</label>';
+            html += '<ul>';
+            for(var key in response) {
+                if(Array.isArray(response[key])) {
+                    html += createTree(response[key], 'Array', key);
+                } else {
+                    html += createTree(response[key], titleCase(typeof response[key]), key);
+                }
+            }
+            html += '<ul>';
+            html += '</li>';
+            html += '</ul></div>';
+            break;
+        case 'String':
+            html += '<li><span>' + title + ': '+ response + '</span></li>';
+            break;
+        default:
+            html += '<li><span>' + title + ': '+ response + '</span></li>';
+            break;
     }
 
     return html;
@@ -49,6 +80,9 @@ var parse = function(req) {
     } else {
         switch (type) {
             case 'Array':
+                html += createTree(response, type);
+                break;
+            case 'Object':
                 html += createTree(response, type);
                 break;
             default:
@@ -80,7 +114,9 @@ var run = function(id, callback) {
             document.getElementById(id + '-code-response').style.display = 'block';
             document.getElementById(id + '-code-tooltip').style.display = 'none';
             document.getElementById(id + '-code-loading').style.display = 'none';
-            callback();
+            if(callback) {
+                callback();
+            }
         }
     }
     xhr.send(JSON.stringify({
