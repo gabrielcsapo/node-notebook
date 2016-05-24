@@ -2,8 +2,33 @@
 var session = location.pathname !== '/' ? location.pathname.replace('/', '') : Date.now();
 
 var total_time = 0;
-
 var editors = {};
+
+var createTree = function(response, type, title) {
+    var html = '';
+
+    switch(type) {
+        case 'Array':
+        var t = Date.now();
+        title = title || 'Array';
+        html += '<div class="treeview"><ul>';
+        html += '<li>';
+        html += '<input type="checkbox" id="'+t+'">';
+        html += '<label for="'+t+'">';
+        html += '<span> '+ title +' ('+response.length+')</span>';
+        html += '</label>';
+        html += '<ul>';
+        response.forEach(function(value) {
+            html += '<li><span>' + value + '</span></li>';
+        });
+        html += '<ul>';
+        html += '</li>';
+        html += '</ul></div>';
+        break;
+    }
+
+    return html;
+}
 
 var parse = function(req) {
     var type = req.type;
@@ -24,24 +49,11 @@ var parse = function(req) {
     } else {
         switch (type) {
             case 'Array':
-                // TODO: abstract treeview creation
-                var t = Date.now();
-                html += '<div class="treeview"><ul>';
-                html += '<li>';
-                html += '<input type="checkbox" id="'+t+'">';
-                html += '<label for="'+t+'">';
-                html += '<span>Array ('+response.length+')</span>';
-                html += '</label>';
-                html += '<ul>';
-                response.forEach(function(value) {
-                    html += '<li><span>' + value + '</span></li>';
-                });
-                html += '<ul>';
-                html += '</li>';
-                html += '</ul></div>';
+                html += createTree(response, type);
                 break;
             default:
                 if(type !== 'undefined') {
+                    var t = Date.now();
                     html += '<label for="'+t+'">';
                     html += '<span>' + type + ' ('+response+')</span>';
                     html += '</label>';
@@ -50,20 +62,7 @@ var parse = function(req) {
         }
     }
     if(logs && logs.length > 0) {
-        var l = Date.now();
-        html += '<div class="treeview"><ul>';
-        html += '<li>';
-        html += '<input type="checkbox" id="'+l+'">';
-        html += '<label for="'+l+'">';
-        html += '<span>Array ('+logs.length+')</span>';
-        html += '</label>';
-        html += '<ul>';
-        logs.forEach(function(value) {
-            html += '<li><span>' + value + '</span></li>';
-        });
-        html += '<ul>';
-        html += '</li>';
-        html += '</ul></div>';
+        html += createTree(logs, 'Array', 'Console');
     }
     return html;
 }
@@ -231,8 +230,10 @@ var startup = function() {
         }));
     }
 
-    document.getElementById('btn-run-all').onclick = function() {
-        run_all();
+    if(document.getElementById('btn-run-all')) {
+        document.getElementById('btn-run-all').onclick = function() {
+            run_all();
+        }
     }
 }
 
