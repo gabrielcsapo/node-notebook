@@ -23,7 +23,14 @@ html
             div.col-8-12(style="position:relative;padding-bottom:80px;")
 
                 if(!presentation)
-                    a.btn.border-primary.pull-right(href="/notebook") create a notebook
+                    div(style="height: 15px;")
+                        a.btn.border-warning.pull-left(href="/notebook/example") Example Notebook
+                        a.btn.border-primary.pull-right(href="/notebook") Create a Notebook
+                    br
+                    br
+                    br
+                    br
+                    hr
 
                 h6 module &nbsp;
                     small var notebook = (require('node-notebook'))
