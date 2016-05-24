@@ -1,5 +1,5 @@
 /*global CodeMirror */
-path = location.pathname.replace('notebook', '');
+path = location.pathname.replace('notebook', '').replace('/', '');
 var session = path !== '/' ? path.replace('/', '') : Date.now();
 
 var total_time = 0;
@@ -11,8 +11,7 @@ var titleCase = function(str) {
 
 var createTree = function(response, type, title) {
     var html = '';
-    console.log(response);
-    console.log(type);
+
     switch(type) {
         case 'Array':
             var t = Date.now();
@@ -65,10 +64,17 @@ var createTree = function(response, type, title) {
 
 var parse = function(req) {
     var type = req.type;
-    var response = req.result;
+    var response
     var error = req.error;
     var logs = req.trace;
     var time = req.time;
+    try {
+        response = JSON.parse(req.result);
+        type = titleCase(typeof response);
+    } catch(ex) {
+        response = req.result;
+    }
+
     var html = '';
 
     if(time) {
@@ -81,6 +87,9 @@ var parse = function(req) {
         html += '</label>';
     } else {
         switch (type) {
+            case 'Function':
+                html += createTree(response, 'Object');
+                break;
             case 'Array':
                 html += createTree(response, type);
                 break;
