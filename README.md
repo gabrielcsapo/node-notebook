@@ -6,8 +6,4 @@
 
 > A notebook service that runs Javascript through the node vm
 
-## installation
-
-```
-npm install
-```
+![README](screenshots/remote-1920x1080-intro.png)

@@ -32,8 +32,22 @@ html
                     br
                     hr
 
-                h6 module &nbsp;
-                    small var notebook = (require('node-notebook'))
+                h3 Installation
+
+                code
+                    |&nbsp;git clone https://github.com/gabrielcsapo/node-notebook.git;
+                    br
+                    |&nbsp;npm install;
+                    br
+                    |&nbsp;npm start;
+                br
+                br
+                hr
+
+                h3 Module
+                    br
+                    small
+                        code var notebook = require('node-notebook')
 
                 h4
                     small > run = function(script=required, session=optional, callback=required, error, type)
@@ -60,8 +74,10 @@ html
                 hr
                 br
 
-                h6 api &nbsp;
-                    small (npm start)
+                h3 Api
+                    br
+                    small
+                        code npm start
 
                 h4
                     small > /api/run

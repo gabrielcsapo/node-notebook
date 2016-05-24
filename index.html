@@ -9,13 +9,13 @@
 </style><style>.code {
     background-color: transparent;
 }
-</style></head><body><div class="navbar"><div class="container"><div class="navbar-title" style="margin-top:35px">node-notebook</div><div class="nav"><a href="#"><i class="fa fa-3x fa-github"></i></a></div></div></div><div class="grid"><div class="col-2-12"></div><div class="col-8-12" style="position:relative;padding-bottom:80px"><h6>module &nbsp;<small>var notebook = (require('node-notebook'))</small></h6><h4><small>> run = function(script=required, session=optional, callback=required, error, type)</small></h4><pre class="code">notebook.run("var moment=require('moment');moment().format('x');", function(result) {
+</style></head><body><div class="navbar"><div class="container"><div class="navbar-title" style="margin-top:35px">node-notebook</div><div class="nav"><a href="#"><i class="fa fa-3x fa-github"></i></a></div></div></div><div class="grid"><div class="col-2-12"></div><div class="col-8-12" style="position:relative;padding-bottom:80px"><h3>Installation</h3><code>&nbsp;git clone https://github.com/gabrielcsapo/node-notebook.git;<br>&nbsp;npm install;<br>&nbsp;npm start;</code><br><br><hr><h3>Module<br><small><code>var notebook = require('node-notebook')</code></small></h3><h4><small>> run = function(script=required, session=optional, callback=required, error, type)</small></h4><pre class="code">notebook.run("var moment=require('moment');moment().format('x');", function(result) {
    // result = { trace: [], result: '\'1462858310879\'', type: 'String' }
 });</pre><br><h4><small>> install = function(dir, module, callback)</small></h4><pre class="code">notebook.install('sandbox/install', 'moment', function(){
    assert.isOk(fs.existsSync('sandbox/install/node_modules/moment/package.json'));
    done();
 });</pre><br><h4><small>> type = function(value)</small></h4><pre class="code">var type = notebook.type({});
-assert.equal(type, 'Object');</pre><br><hr><br><h6>api &nbsp;<small>(npm start)</small></h6><h4><small>> /api/run</small></h4><pre class="code">curl -X POST localhost:3000/api/run --data "script=var moment=require('moment');moment().format('x');"</pre><pre>{
+assert.equal(type, 'Object');</pre><br><hr><br><h3>Api<br><small><code>npm start</code></small></h3><h4><small>> /api/run</small></h4><pre class="code">curl -X POST localhost:3000/api/run --data "script=var moment=require('moment');moment().format('x');"</pre><pre>{
    "trace": [],
    "result": "'1460177101199'",
    "type": "String"
