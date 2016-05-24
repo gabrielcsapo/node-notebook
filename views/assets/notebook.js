@@ -66,7 +66,7 @@ var parse = function(req) {
     var response
     var error = req.error;
     var logs = req.trace;
-    var time = req.time;
+    var time = req.time ? req.time + 'ms' : req.time;
     try {
         response = JSON.parse(req.result);
         type = titleCase(typeof response);
