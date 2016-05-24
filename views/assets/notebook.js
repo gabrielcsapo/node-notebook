@@ -1,5 +1,6 @@
 /*global CodeMirror */
-var session = location.pathname !== '/' ? location.pathname.replace('/', '') : Date.now();
+path = location.pathname.replace('notebook', '');
+var session = path !== '/' ? path.replace('/', '') : Date.now();
 
 var total_time = 0;
 var editors = {};
@@ -10,7 +11,8 @@ var titleCase = function(str) {
 
 var createTree = function(response, type, title) {
     var html = '';
-
+    console.log(response);
+    console.log(type);
     switch(type) {
         case 'Array':
             var t = Date.now();
@@ -254,11 +256,11 @@ var startup = function() {
             });
         }
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/" + session);
+        xhr.open("POST", "/notebook/" + session);
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                window.location.href = '/' + session;
+                window.location.href = '/notebook/' + session;
             }
         }
         xhr.send(JSON.stringify({
