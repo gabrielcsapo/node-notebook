@@ -67,7 +67,7 @@ var parse = function(req) {
     var type = req.type;
     var response
     var error = req.error;
-    var logs = req.trace;
+    var logs = req.logs;
     var time = req.time ? req.time + 'ms' : req.time;
     try {
         response = JSON.parse(req.result);
@@ -248,16 +248,16 @@ var deleteBlock = function(id) {
 var createTextBlock = function(id, text) {
     var now = Date.now();
     var div = document.createElement('div');
-    var html = '<br><br><div id="' + now + '-code-form" class="editor-form">' +
+    var html = '<div id="' + now + '-code-form" class="editor-form">' +
         '<textarea id="' + now + '-code" style="display: none"></textarea>' +
         '<div id="' + now + '-code-response" class="code-response"></div>' +
         '<i id="' + now + '-code-actions" class="code-actions"><i class="fa fa-terminal" onclick="createCodeBlock(\'' + (now) + '\');">&nbsp;&nbsp;</i><i class="fa fa-pencil" onclick="createTextBlock(\'' + (now) + '\');">&nbsp;&nbsp;</i><i class="fa fa-trash-o" onclick="deleteBlock(\'' + (now) + '\');">&nbsp;&nbsp;</i></i>' +
-        '</div><br><br>';
+        '</div>';
     div.innerHTML = html;
     if (id) {
         document.getElementById(id + '-code-form').parentNode.insertBefore(
             div,
-            document.getElementById(id + '-code-form').parentNode.nextSibling
+            document.getElementById(id + '-code-form').nextSibling
         );
     } else {
         document.querySelector('.code-container').appendChild(div);
@@ -279,19 +279,19 @@ var createCodeBlock = function(id, script, analytics) {
     var now = Date.now();
     var div = document.createElement('div');
     // TODO: all ids and classes could be abstracted to locators object
-    var html = '<br><br><div id="' + now + '-code-form" class="code-form">' +
+    var html = '<div id="' + now + '-code-form" class="code-form">' +
         '<textarea id="' + now + '-code" style="display: none"></textarea>' +
         '<i id="' + now + '-code-tooltip" class="code-tooltip"><small>type code and press shift + enter to run</small></i>' +
         '<div id="' + now + '-code-response" class="code-response"></div>' +
         '<div id="' + now + '-code-loading" class="code-loading"><div class="spinner-overlay"><div class="spinner-wrapper"><div class="spinner spinner-info"></div></div></div></div>' +
-        '<i id="' + now + '-code-actions" class="code-actions"><i class="fa fa-play" onclick="run(\'' + (now) + '\');">&nbsp;&nbsp;</i><i class="fa fa-terminal" onclick="createCodeBlock(\'' + (now) + '\');">&nbsp;&nbsp;</i><i class="fa fa-pencil" onclick="createTextBlock(\'' + (now) + '\');">&nbsp;&nbsp;</i><i class="fa fa-trash-o" onclick="deleteBlock(\'' + (now) + '\');">&nbsp;&nbsp;</i></i>' +
         '<div id="code-chart-' + now + '" class="code-analytics-chart"></div>' +
-        '</div><br><br>';
+        '<i id="' + now + '-code-actions" class="code-actions"><i class="fa fa-play" onclick="run(\'' + (now) + '\');">&nbsp;&nbsp;</i><i class="fa fa-terminal" onclick="createCodeBlock(\'' + (now) + '\');">&nbsp;&nbsp;</i><i class="fa fa-pencil" onclick="createTextBlock(\'' + (now) + '\');">&nbsp;&nbsp;</i><i class="fa fa-trash-o" onclick="deleteBlock(\'' + (now) + '\');">&nbsp;&nbsp;</i></i>' +
+        '</div>';
     div.innerHTML = html;
     if (id) {
         document.getElementById(id + '-code-form').parentNode.insertBefore(
             div,
-            document.getElementById(id + '-code-form').parentNode.nextSibling
+            document.getElementById(id + '-code-form').nextSibling
         );
     } else {
         document.querySelector('.code-container').appendChild(div);

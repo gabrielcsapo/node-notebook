@@ -20,7 +20,7 @@ describe('Sever', function() {
                 }
                 assert.isObject(res.body, 'response is an object');
                 assert.isNumber(res.body.time, 'time is a number representing milleseconds');
-                assert.isArray(res.body.trace, 'response trace is an Array');
+                assert.isArray(res.body.logs, 'response logs is an Array');
                 assert.isObject(res.body.analytics, 'response analytics is an Array');
                 assert.isString(res.body.result, 'response result is a string');
                 assert.equal(res.body.type, 'String', 'response type is string');
@@ -50,7 +50,7 @@ describe('Sever', function() {
             });
     });
 
-    it('should return hello world in trace', function(done) {
+    it('should return hello world in logs', function(done) {
         var code = {
             'script': 'var c = function(callback) { callback("hello-world"); }; c(function(val) { console.log(val); });'
         };
@@ -66,7 +66,7 @@ describe('Sever', function() {
                 assert.isObject(res.body, 'response is an object');
                 assert.isNumber(res.body.time, 'time is a number representing milleseconds');
                 assert.isObject(res.body.analytics, 'response analytics is an Array');
-                assert.equal(res.body.trace[0], 'hello-world', 'response trace is hello-world');
+                assert.equal(res.body.logs[0], 'hello-world', 'response logs is hello-world');
                 done();
             });
     });

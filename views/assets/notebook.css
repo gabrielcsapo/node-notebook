@@ -29,6 +29,10 @@ hr:before {
 pre {
     background-color: transparent;
 }
+.code-form {
+    margin-top: 75px;
+    margin-bottom: 75px;
+}
 .code-loading {
     border: 1px solid #dedede;
     padding: 10px;
@@ -42,7 +46,7 @@ pre {
     display: none;
 }
 .code-analytics-chart {
-    margin-top: 45px;
+    margin-top: 15px;
 }
 .editor-form {
     font-size: 18px;

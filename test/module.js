@@ -10,7 +10,7 @@ describe('Module', function() {
         notebook.run(code, Date.now(), function(result) {
             assert.isObject(result, 'result is an object');
             assert.isNumber(result.time, 'time is a number representing milleseconds');
-            assert.isArray(result.trace, 'result trace is an Array');
+            assert.isArray(result.logs, 'result logs is an Array');
             assert.isString(result.result, 'result result is a string');
             assert.isObject(result.analytics, 'result analytics is an Array');
             assert.equal(result.type, 'String', 'result type is string');
@@ -31,12 +31,12 @@ describe('Module', function() {
         });
     });
 
-    it('should return hello world in trace', function(done) {
+    it('should return hello world in logs', function(done) {
         var code = 'var c = function(callback) { callback("hello-world"); }; c(function(val) { console.log(val); });';
         notebook.run(code, Date.now(), function(result) {
             assert.isObject(result, 'response is an object');
             assert.isNumber(result.time, 'time is a number representing milleseconds');
-            assert.equal(result.trace[0], 'hello-world', 'response trace is hello-world');
+            assert.equal(result.logs[0], 'hello-world', 'response logs is hello-world');
             assert.isObject(result.analytics, 'result analytics is an Array');
             done();
         });
@@ -47,7 +47,7 @@ describe('Module', function() {
         notebook.run(code, Date.now(), function(result) {
             assert.isObject(result, 'result is an object');
             assert.isNumber(result.time, 'time is a number representing milleseconds');
-            assert.isArray(result.trace, 'result trace is an Array');
+            assert.isArray(result.logs, 'result logs is an Array');
             assert.isString(result.result, 'result result is a string');
             assert.isObject(result.analytics, 'result analytics is an Array');
             assert.equal(result.type, 'String', 'result type is string');
