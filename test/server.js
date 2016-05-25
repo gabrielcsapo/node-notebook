@@ -19,8 +19,9 @@ describe('Sever', function() {
                     throw err;
                 }
                 assert.isObject(res.body, 'response is an object');
-                assert.isString(res.body.time, 'time is a string');
+                assert.isNumber(res.body.time, 'time is a number representing milleseconds');
                 assert.isArray(res.body.trace, 'response trace is an Array');
+                assert.isObject(res.body.analytics, 'response analytics is an Array');
                 assert.isString(res.body.result, 'response result is a string');
                 assert.equal(res.body.type, 'String', 'response type is string');
                 done();
@@ -41,7 +42,8 @@ describe('Sever', function() {
                     throw err;
                 }
                 assert.isObject(res.body, 'response is an object');
-                assert.isString(res.body.time, 'time is a string');
+                assert.isNumber(res.body.time, 'time is a number representing milleseconds');
+                assert.isObject(res.body.analytics, 'response analytics is an Array');
                 assert.equal(res.body.result, '10', 'response is 10 which is 5+5');
                 assert.equal(res.body.type, 'Number', 'response type is Number');
                 done();
@@ -62,7 +64,8 @@ describe('Sever', function() {
                     throw err;
                 }
                 assert.isObject(res.body, 'response is an object');
-                assert.isString(res.body.time, 'time is a string');
+                assert.isNumber(res.body.time, 'time is a number representing milleseconds');
+                assert.isObject(res.body.analytics, 'response analytics is an Array');
                 assert.equal(res.body.trace[0], 'hello-world', 'response trace is hello-world');
                 done();
             });
