@@ -9,9 +9,10 @@ describe('Module', function() {
         var code = 'var moment=require("moment");moment().format("x");';
         notebook.run(code, Date.now(), function(result) {
             assert.isObject(result, 'result is an object');
-            assert.isString(result.time, 'time is a string');
+            assert.isNumber(result.time, 'time is a number representing milleseconds');
             assert.isArray(result.trace, 'result trace is an Array');
             assert.isString(result.result, 'result result is a string');
+            assert.isObject(result.analytics, 'result analytics is an Array');
             assert.equal(result.type, 'String', 'result type is string');
             done();
         });
@@ -22,8 +23,9 @@ describe('Module', function() {
 
         notebook.run(code, Date.now(), function(result) {
             assert.isObject(result, 'result is an object');
-            assert.isString(result.time, 'time is a string');
+            assert.isNumber(result.time, 'time is a number representing milleseconds');
             assert.equal(result.result, '10', 'result is 10 which is 5+5');
+            assert.isObject(result.analytics, 'result analytics is an Array');
             assert.equal(result.type, 'Number', 'result type is Number');
             done();
         });
@@ -33,8 +35,9 @@ describe('Module', function() {
         var code = 'var c = function(callback) { callback("hello-world"); }; c(function(val) { console.log(val); });';
         notebook.run(code, Date.now(), function(result) {
             assert.isObject(result, 'response is an object');
-            assert.isString(result.time, 'time is a string');
+            assert.isNumber(result.time, 'time is a number representing milleseconds');
             assert.equal(result.trace[0], 'hello-world', 'response trace is hello-world');
+            assert.isObject(result.analytics, 'result analytics is an Array');
             done();
         });
     });
@@ -43,9 +46,10 @@ describe('Module', function() {
         var code = 'require("moment@2.13.0")().format("x");';
         notebook.run(code, Date.now(), function(result) {
             assert.isObject(result, 'result is an object');
-            assert.isString(result.time, 'time is a string');
+            assert.isNumber(result.time, 'time is a number representing milleseconds');
             assert.isArray(result.trace, 'result trace is an Array');
             assert.isString(result.result, 'result result is a string');
+            assert.isObject(result.analytics, 'result analytics is an Array');
             assert.equal(result.type, 'String', 'result type is string');
             done();
         });

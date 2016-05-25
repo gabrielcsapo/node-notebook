@@ -41,6 +41,9 @@ pre {
     margin-top: 5px;
     display: none;
 }
+.code-analytics-chart {
+    margin-top: 45px;
+}
 .editor-form {
     font-size: 18px;
     width: 96%;
