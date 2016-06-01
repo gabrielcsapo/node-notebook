@@ -3,7 +3,7 @@ var path = location.pathname.replace('notebook', '').replace('/', '');
 var session = path !== '/' ? path.replace('/', '') : Date.now();
 if (session == '') {
     session = Date.now();
-};
+}
 
 var total_time = 0;
 var editors = {};
