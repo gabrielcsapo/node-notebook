@@ -1,6 +1,9 @@
 /*global CodeMirror, Chartist */
 var path = location.pathname.replace('notebook', '').replace('/', '');
 var session = path !== '/' ? path.replace('/', '') : Date.now();
+if (session == '') {
+    session = Date.now();
+};
 
 var total_time = 0;
 var editors = {};
@@ -120,94 +123,97 @@ var showAnalytics = function(id, analytics) {
     var avg_time = 0;
     var i = 1;
 
-    document.querySelector('#code-chart-' + id).innerHTML = '<div class="spinner-overlay"><div class="spinner-wrapper"><div class="spinner spinner-info"></div></div></div>';
-    analytics.runs.forEach(function(run) {
-        avg_time += run[1];
-        series.push(run[1]);
-        if (i % 5 == 0) {
-            labels.push(i);
-        }
-        i++;
-    });
 
-    avg_time = avg_time / analytics.runs.length;
-
-    analytics.runs.forEach(function() {
-        avg_series.push(avg_time);
-    });
-
-    var defaultOptions = {
-      labelClass: 'ct-label',
-      labelOffset: {
-        x: 0,
-        y: -10
-      },
-      textAnchor: 'middle',
-      labelInterpolationFnc: Chartist.noop
-    };
-
-    Chartist.plugins = Chartist.plugins || {};
-    Chartist.plugins.ctPointLabels = function(options) {
-
-      options = Chartist.extend({}, defaultOptions, options);
-
-      return function ctPointLabels(chart) {
-        if(chart instanceof Chartist.Line) {
-          chart.on('draw', function(data) {
-            if(data.type === 'point') {
-              if(options.series ? options.series.indexOf(data.series.name) > -1 : true) {
-                  data.group.elem('text', {
-                    x: data.x + options.labelOffset.x,
-                    y: data.y + options.labelOffset.y,
-                    style: 'text-anchor: ' + options.textAnchor
-                  }, options.labelClass).text(options.labelInterpolationFnc(data.value.x === undefined ? data.value.y : data.value.x + ', ' + data.value.y));
-              }
+    if (analytics.runs) {
+        document.querySelector('#code-chart-' + id).innerHTML = '<div class="spinner-overlay"><div class="spinner-wrapper"><div class="spinner spinner-info"></div></div></div>';
+        analytics.runs.forEach(function(run) {
+            avg_time += run[1];
+            series.push(run[1]);
+            if (i % 5 == 0) {
+                labels.push(i);
             }
-          });
-        }
-      };
-    };
+            i++;
+        });
 
-    document.querySelector('#code-chart-' + id).innerHTML = '<span id="code-chart-avg-time' + id + '" style="float: left;margin-top:5px;margin-bottom:5px;" class="badge badge-default">Avg : ' + avg_time + 'ms</span>';
-    try {
-        new Chartist.Line('#code-chart-' + id, {
-            labels: labels,
-            series: [{
-                name: 'series-runs',
-                data: series
-            }, {
-                name: 'series-avg',
-                data: avg_series
-            }]
-        }, {
-            lineSmooth: Chartist.Interpolation.simple({
-                divisor: 1
-            }),
-            fullWidth: true,
-            low: 0,
-            axisY: {
-                offset: 40,
-                labelInterpolationFnc: function(value) {
-                    return value + 'ms'
-                },
-                scaleMinSpace: 15
+        avg_time = avg_time / analytics.runs.length;
+
+        analytics.runs.forEach(function() {
+            avg_series.push(avg_time);
+        });
+
+        var defaultOptions = {
+            labelClass: 'ct-label',
+            labelOffset: {
+                x: 0,
+                y: -10
             },
-            plugins: [
-                Chartist.plugins.ctPointLabels({
-                    textAnchor: 'middle',
+            textAnchor: 'middle',
+            labelInterpolationFnc: Chartist.noop
+        };
+
+        Chartist.plugins = Chartist.plugins || {};
+        Chartist.plugins.ctPointLabels = function(options) {
+
+            options = Chartist.extend({}, defaultOptions, options);
+
+            return function ctPointLabels(chart) {
+                if (chart instanceof Chartist.Line) {
+                    chart.on('draw', function(data) {
+                        if (data.type === 'point') {
+                            if (options.series ? options.series.indexOf(data.series.name) > -1 : true) {
+                                data.group.elem('text', {
+                                    x: data.x + options.labelOffset.x,
+                                    y: data.y + options.labelOffset.y,
+                                    style: 'text-anchor: ' + options.textAnchor
+                                }, options.labelClass).text(options.labelInterpolationFnc(data.value.x === undefined ? data.value.y : data.value.x + ', ' + data.value.y));
+                            }
+                        }
+                    });
+                }
+            };
+        };
+
+        document.querySelector('#code-chart-' + id).innerHTML = '<span id="code-chart-avg-time' + id + '" style="float: left;margin-top:5px;margin-bottom:5px;" class="badge badge-default">Avg : ' + avg_time + 'ms</span>';
+        try {
+            new Chartist.Line('#code-chart-' + id, {
+                labels: labels,
+                series: [{
+                    name: 'series-runs',
+                    data: series
+                }, {
+                    name: 'series-avg',
+                    data: avg_series
+                }]
+            }, {
+                lineSmooth: Chartist.Interpolation.simple({
+                    divisor: 1
+                }),
+                fullWidth: true,
+                low: 0,
+                axisY: {
+                    offset: 40,
                     labelInterpolationFnc: function(value) {
                         return value + 'ms'
                     },
-                    series: ['series-runs']
-                })
-            ],
-            series: {
-                'series-runs': {
-                    showArea: true
+                    scaleMinSpace: 15
+                },
+                plugins: [
+                    Chartist.plugins.ctPointLabels({
+                        textAnchor: 'middle',
+                        labelInterpolationFnc: function(value) {
+                            return value + 'ms'
+                        },
+                        series: ['series-runs']
+                    })
+                ],
+                series: {
+                    'series-runs': {
+                        showArea: true
+                    }
                 }
-            }
-        });
-    } catch(ex) {} // eslint-disable-line no-empty
+            });
+        } catch (ex) {} // eslint-disable-line no-empty
+    }
 }
 
 var run = function(id, callback) {
@@ -240,10 +246,11 @@ var run = function(id, callback) {
 
 /*eslint-disable no-unused-vars */
 var deleteBlock = function(id) {
-        delete editors[id];
-        document.querySelector('.code-container').removeChild(document.getElementById(id + '-code-form').parentNode);
-    }
-    /*eslint-enable no-unused-vars */
+    delete editors[id];
+    document.querySelector('.code-container')
+            .removeChild(document.getElementById(id + '-code-form').parentNode);
+}
+/*eslint-enable no-unused-vars */
 
 var createTextBlock = function(id, text) {
     var now = Date.now();
