@@ -54,10 +54,9 @@ app.post('/run', function(req, res) {
 
 app.get('/notebook/:hash', function(req, res) {
     var hash = req.params.hash;
-    // TODO: share_url should be relative to the original url location
     res.render('notebook', {
         stored_values: JSON.stringify(datasource.get(hash)),
-        share_url: 'http://localhost/' + hash
+        share_url: req.headers.host + '/' + hash
     });
 });
 
@@ -70,7 +69,11 @@ app.post('/notebook/:hash', function(req, res) {
 
 app.get('/notebook/:hash/json', function(req, res) {
     var hash = req.params.hash;
-    res.send(datasource.get(hash));
+    var notebook = {
+        share_url: req.headers.host + '/' + hash,
+        data: datasource.get(hash)
+    };
+    res.send(notebook);
 });
 
 app.listen(port, function() {

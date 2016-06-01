@@ -92,12 +92,14 @@ describe('Sever', function() {
     it('should test the get functionality', function(done) {
         request(app)
             .get('/notebook/' + now + '/json')
+            .set('Host', 'node-notebook.example.com')
             .type('json')
             .send({
                 values: [{type: "script", value: "var i = 4;"}, {type: "text", value: "you can use simple numbers?"}]
             })
             .expect(200)
-            .end(function(err) {
+            .end(function(err, res) {
+                assert.isOk(res.body.share_url.indexOf('node-notebook.example.com/') > -1);
                 if (err) {
                     throw err;
                 }
