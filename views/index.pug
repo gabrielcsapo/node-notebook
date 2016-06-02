@@ -34,14 +34,20 @@ html
                     br
                     hr
 
-                h3 Stats
+                h3 Instance
 
                 if (online)
                     ul.list
                         li.list-item Memory Usage
-                            div.badge.badge-primary=memoryUsage
+                            div.badge.badge-white.text-black.border-default=memoryUsage
                         li.list-item Notebooks
-                            div.badge.badge-primary=notebooks
+                            div.badge.badge-white.text-black.border-default=notebooks
+                        for value, key in system
+                            li.list-item=key
+                                div.badge.badge-white.text-black.border-default=value
+                br
+                br
+                hr
 
                 h3 Installation
 

@@ -47,7 +47,8 @@ app.get('/', function(req, res) {
     res.render('index', {
         online: true,
         memoryUsage: filesize(process.memoryUsage().heapUsed),
-        notebooks: db('notebooks').value().length
+        notebooks: db('notebooks').value().length,
+        system: process.versions
     });
 });
 

@@ -2,6 +2,10 @@
 
  > These are some concepts to what would be good addition to node-notebook
 
+- Be able to save code snippets to accounts?
+    - just save reference to the notebook key to the accounts for now
+    - be able to have notebooks referenced to user account have named hashes
+        - ex: /{username}/{hash}
  - Running asynchonous code
     - running a server in a notebook, something that requires a forever loop or the spawn of a new process
 - Being able to transform data
