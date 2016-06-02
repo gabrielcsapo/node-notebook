@@ -23,6 +23,7 @@
     "compression": "^1.6.2",
     "express": "^4.13.4",
     "figlet": "^1.1.2",
+    "filesize": "^3.3.0",
     "font-awesome": "^4.6.3",
     "fs-extra": "^0.30.0",
     "js-beautify": "^1.6.2",

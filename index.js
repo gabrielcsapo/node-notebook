@@ -7,6 +7,7 @@ var fs = require('fs');
 var figlet = require('figlet');
 var vm = require('./lib/vm');
 var datasource = require('./lib/datasource');
+var filesize = require('filesize');
 
 var port = process.env.PORT || 3000;
 
@@ -17,6 +18,7 @@ try {
 app.set('view engine', 'pug');
 app.use(compression());
 
+// TODO: clean this up 🖕
 app.use('/assets', express.static(__dirname + '/views/assets'));
 app.use('/assets/codemirror', express.static(__dirname + '/node_modules/codemirror'));
 app.use('/assets/psychic-ui', express.static(__dirname + '/node_modules/psychic-ui'));
@@ -36,8 +38,17 @@ app.use(bodyParser.json({
     }
 }));
 
+var low = require('lowdb');
+var storage = require('lowdb/file-sync');
+
+var db = low('db.json', {storage: storage});
+
 app.get('/', function(req, res) {
-    res.render('index');
+    res.render('index', {
+        online: true,
+        memoryUsage: filesize(process.memoryUsage().heapUsed),
+        notebooks: db('notebooks').value().length
+    });
 });
 
 app.get('/notebook', function(req, res) {

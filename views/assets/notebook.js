@@ -29,7 +29,14 @@ var createTree = function(response, type, title) {
             html += '</label>';
             html += '<ul>';
             response.forEach(function(value) {
-                html += '<li><span>' + value + '</span></li>';
+                try {
+                    value = JSON.parse(value);
+                } catch(ex) {} // eslint-disable-line no-empty
+                if(typeof value == 'object' || typeof value == 'function') {
+                    html += createTree(value, titleCase(typeof value));
+                } else {
+                    html += '<li><span>' + value + '</span></li>';
+                }
             });
             html += '<ul>';
             html += '</li>';
@@ -68,7 +75,7 @@ var createTree = function(response, type, title) {
 
 var parse = function(req) {
     var type = req.type;
-    var response
+    var response;
     var error = req.error;
     var logs = req.logs;
     var time = req.time ? req.time + 'ms' : req.time;
@@ -121,12 +128,17 @@ var showAnalytics = function(id, analytics) {
     var series = [];
     var avg_series = [];
     var avg_time = 0;
+    var max_time = 0;
+    var min_time = 0;
     var i = 1;
 
 
     if (analytics.runs) {
         document.querySelector('#code-chart-' + id).innerHTML = '<div class="spinner-overlay"><div class="spinner-wrapper"><div class="spinner spinner-info"></div></div></div>';
         analytics.runs.forEach(function(run) {
+            if(max_time < run[1]) { max_time = run[1]; }
+            if(min_time > run[1] || !min_time) { min_time = run[1]; }
+
             avg_time += run[1];
             series.push(run[1]);
             if (i % 5 == 0) {
@@ -173,7 +185,11 @@ var showAnalytics = function(id, analytics) {
             };
         };
 
-        document.querySelector('#code-chart-' + id).innerHTML = '<span id="code-chart-avg-time' + id + '" style="float: left;margin-top:5px;margin-bottom:5px;" class="badge badge-default">Avg : ' + avg_time + 'ms</span>';
+        var timings = ''+
+            '<span id="code-chart-avg-time' + id + '" style="float: left;margin-top:5px;margin-bottom:5px;" class="badge badge-default">Avg : ' + avg_time.toFixed(3) + 'ms</span>' +
+            '<span id="code-chart-min-time' + id + '" style="float: right;margin-top:5px;margin-bottom:5px;border-radius:0px;" class="badge badge-default">Min Time : ' + min_time.toFixed(0) + 'ms</span>&nbsp;' +
+            '<span id="code-chart-max-time' + id + '" style="float: right;margin-top:5px;margin-bottom:5px;border-radius:0px;margin-right:2px;" class="badge badge-default">Max Time : ' + max_time.toFixed(0) + 'ms</span>';
+        document.querySelector('#code-chart-' + id).innerHTML = timings;
         try {
             new Chartist.Line('#code-chart-' + id, {
                 labels: labels,

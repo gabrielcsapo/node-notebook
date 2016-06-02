@@ -3,6 +3,7 @@ html
     head
         title node-notebook
         meta(name="viewport" content="width=device-width, initial-scale=1")
+        //- TODO: get rid of this external call
         link(rel="stylesheet" href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css")
         link(rel="stylesheet" href="/assets/font-awesome/css/font-awesome.css")
         style
@@ -14,7 +15,8 @@ html
     body
         div.navbar
             div.container
-                div.navbar-title(style="margin-top:35px;") node-notebook
+                div.navbar-title(style="margin-top:35px;")
+                    a(href="/") node-notebook
                 div.nav
                     a(href="https://github.com/gabrielcsapo/node-notebook")
                         i(class="fa fa-3x fa-github")
@@ -22,7 +24,7 @@ html
             div.col-2-12
             div.col-8-12(style="position:relative;padding-bottom:80px;")
 
-                if(!presentation)
+                if (!presentation)
                     div(style="height: 15px;")
                         a.btn.border-warning.pull-left(href="/notebook/example") Example Notebook
                         a.btn.border-primary.pull-right(href="/notebook") Create a Notebook
@@ -31,6 +33,15 @@ html
                     br
                     br
                     hr
+
+                h3 Stats
+
+                if (online)
+                    ul.list
+                        li.list-item Memory Usage
+                            div.badge.badge-primary=memoryUsage
+                        li.list-item Notebooks
+                            div.badge.badge-primary=notebooks
 
                 h3 Installation
 

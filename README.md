@@ -9,6 +9,12 @@
 
 > A notebook service that runs Javascript through the node vm
 
+# [Concepts](CONCEPTS.md)
+
+> what are some ideas for node-notebook?
+
+# Screenshots
+
 ![README](screenshots/remote-1920x1080-intro.png)
 
 ![README](screenshots/remote-1920x1080-stored.png)
