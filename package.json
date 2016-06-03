@@ -1,6 +1,6 @@
 {
   "name": "node-notebook",
-  "version": "0.3.1",
+  "version": "0.3.3",
   "description": "A notebook service that runs Javascript through the node vm",
   "main": "./lib/vm.js",
   "bin": {
