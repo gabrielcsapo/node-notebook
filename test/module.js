@@ -36,7 +36,7 @@ describe('Module', function() {
         notebook.run(code, Date.now(), function(result) {
             assert.isObject(result, 'response is an object');
             assert.isNumber(result.time, 'time is a number representing milleseconds');
-            assert.equal(result.logs[0], 'hello-world', 'response logs is hello-world');
+            assert.equal(result.logs[0], '"hello-world"', 'response logs is hello-world');
             assert.isObject(result.analytics, 'result analytics is an Array');
             done();
         });

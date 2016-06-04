@@ -16,8 +16,11 @@ var titleCase = function(str) {
 
 var createTree = function(response, type, title) {
     var html = '';
-    var t = Date.now();
-
+    // This is to associate nested objects with parents
+    // You may be asking why the fuck? 10000000000000 a little fucking excessive?
+    // Yeah probably, but 🖕
+    
+    var t = Date.now() + Math.floor(0, 10000000000000);
     switch (type) {
         case 'Array':
             title = title || 'Array';

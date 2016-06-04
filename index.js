@@ -79,6 +79,31 @@ app.post('/notebook/:hash', function(req, res) {
     res.sendStatus(200);
 });
 
+app.get('/notebook/:hash/run', function(req, res) {
+    var hash = req.params.hash;
+    var session = Date.now();
+    var notebook = datasource.get(hash)
+    var scripts = notebook.length - 1;
+    var done = function() {
+        scripts -= 1;
+        if(scripts == 0) {
+            res.send(notebook);
+        }
+    }
+    notebook.forEach(function(script, index) {
+        if(script.type == 'script') {
+            vm.run(script.value, session, function(result) {
+                notebook[index].analytics = result.analytics;
+                delete result.analytics;
+                notebook[index].result = result;
+                done();
+            });
+        } else {
+            done();
+        }
+    });
+});
+
 app.get('/notebook/:hash/json', function(req, res) {
     var hash = req.params.hash;
     var notebook = {

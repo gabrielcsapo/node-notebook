@@ -66,10 +66,12 @@ describe('Sever', function() {
                 assert.isObject(res.body, 'response is an object');
                 assert.isNumber(res.body.time, 'time is a number representing milleseconds');
                 assert.isObject(res.body.analytics, 'response analytics is an Array');
-                assert.equal(res.body.logs[0], 'hello-world', 'response logs is hello-world');
+                assert.equal(res.body.logs[0], '"hello-world"', 'response logs is hello-world');
                 done();
             });
     });
+
+    // TODO: maybe put these blocks in a describe `notebook-api`?
 
     var now = Date.now();
 
@@ -78,7 +80,7 @@ describe('Sever', function() {
             .post('/notebook/' + now)
             .type('json')
             .send({
-                values: [{type: "script", value: "var i = 4;"}, {type: "text", value: "you can use simple numbers?"}]
+                values: [{type: "script", value: "var i = 4;i;"}, {type: "text", value: "you can use simple numbers?"}]
             })
             .expect(200)
             .end(function(err) {
@@ -94,17 +96,27 @@ describe('Sever', function() {
             .get('/notebook/' + now + '/json')
             .set('Host', 'node-notebook.example.com')
             .type('json')
-            .send({
-                values: [{type: "script", value: "var i = 4;"}, {type: "text", value: "you can use simple numbers?"}]
-            })
             .expect(200)
             .end(function(err, res) {
-                assert.isOk(res.body.share_url.indexOf('node-notebook.example.com/') > -1);
                 if (err) {
                     throw err;
                 }
+                assert.isOk(res.body.share_url.indexOf('node-notebook.example.com/') > -1);
                 done();
             });
     });
 
+    it('should run a notebook via the api', function(done) {
+        request(app)
+            .get('/notebook/' + now + '/run')
+            .type('json')
+            .expect(200)
+            .end(function(err, res) {
+                if (err) {
+                    throw err;
+                }
+                assert.equal(res.body[0].result.result, '4', 'notebooks first entry should return 4');
+                done();
+            });
+    });
 });
