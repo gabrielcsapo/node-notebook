@@ -1,1 +1,0 @@
-- [ ] factor out treeview styles and add them to psychic-ui
