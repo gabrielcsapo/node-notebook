@@ -1,4 +1,8 @@
-/*global CodeMirror, Chartist */
+require('codemirror/mode/javascript/javascript');
+
+var CodeMirror = require('codemirror/lib/codemirror');
+var Chartist = require('chartist');
+
 var path = location.pathname.replace('notebook', '').replace('/', '');
 var session = path !== '/' ? path.replace('/', '') : Date.now();
 if (session == '') {
@@ -19,7 +23,7 @@ var createTree = function(response, type, title) {
     // This is to associate nested objects with parents
     // You may be asking why the fuck? 10000000000000 a little fucking excessive?
     // Yeah probably, but 🖕
-    
+
     var t = Date.now() + Math.floor(0, 10000000000000);
     switch (type) {
         case 'Array':

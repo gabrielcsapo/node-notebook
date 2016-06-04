@@ -17,15 +17,7 @@ try {
 
 app.set('view engine', 'pug');
 app.use(compression());
-
-// TODO: clean this up 🖕
-app.use('/assets', express.static(__dirname + '/views/assets'));
-app.use('/assets/codemirror', express.static(__dirname + '/node_modules/codemirror'));
-app.use('/assets/psychic-ui', express.static(__dirname + '/node_modules/psychic-ui'));
-app.use('/assets/font-awesome', express.static(__dirname + '/node_modules/font-awesome'));
-app.use('/assets/chartist', express.static(__dirname + '/node_modules/chartist/dist'));
-app.use('/assets/chartist-plugin-pointlabels', express.static(__dirname + '/node_modules/chartist-plugin-pointlabels/dist'));
-
+app.use('/', express.static(__dirname + '/views/assets'));
 app.use(bodyParser.urlencoded({
     extended: false,
     verify: function(req, res, buf) {
@@ -53,7 +45,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/notebook', function(req, res) {
-    res.render('notebook');
+    res.render('notebook/notebook');
 });
 
 app.post('/run', function(req, res) {
@@ -66,7 +58,7 @@ app.post('/run', function(req, res) {
 
 app.get('/notebook/:hash', function(req, res) {
     var hash = req.params.hash;
-    res.render('notebook', {
+    res.render('notebook/notebook', {
         stored_values: JSON.stringify(datasource.get(hash)),
         share_url: req.headers.host + '/' + hash
     });
