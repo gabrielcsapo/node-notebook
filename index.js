@@ -30,8 +30,8 @@ app.use(bodyParser.json({
     }
 }));
 
-var low = require('lowdb');
-var storage = require('lowdb/file-sync');
+var low = require('node-flat-db');
+var storage = require('node-flat-db/file-sync');
 
 var db = low('db.json', {storage: storage});
 

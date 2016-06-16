@@ -1,6 +1,6 @@
 {
   "name": "node-notebook",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "A notebook service that runs Javascript through the node vm",
   "main": "./lib/vm.js",
   "bin": {
@@ -29,8 +29,8 @@
     "font-awesome": "^4.6.3",
     "fs-extra": "^0.30.0",
     "js-beautify": "^1.6.3",
-    "lowdb": "^0.12.5",
     "moment": "^2.13.0",
+    "node-flat-db": "^0.2.1",
     "psychic-ui": "^0.3.0",
     "pug": "^2.0.0-alpha7",
     "serve-static": "^1.11.1"
