@@ -1,5 +1,5 @@
 @import '/font-awesome/css/font-awesome.css';
-@import (inline) 'node_modules/psychic-ui/psychic-min.css';
+@import (inline) 'node_modules/psychic-ui/dist/psychic-min.css';
 @import (inline) 'node_modules/codemirror/lib/codemirror.css';
 @import (inline) 'node_modules/chartist/dist/chartist.min.css';
 
@@ -7,32 +7,15 @@ body, html {
     height: 100%;
     width: 100%;
 }
+hr.ellipsis:before {
+    font-size:30px;
+}
 .footer {
     position:absolute;
     bottom:0;
 }
 .code {
     background-color: transparent;
-}
-hr {
-    display: block;
-    border: 0 solid #e0dedf;
-    border-bottom-width: 1px;
-    margin: 50px auto 10px auto;
-    max-width: 100%;
-    position: relative
-}
-hr:before {
-    content: '';
-    display: block;
-    width: 1em;
-    height: 1em;
-    background-color: #ccc;
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    margin: -.5em;
-    box-shadow: 0 0 0 0.5em white;
 }
 .CodeMirror {
     height: auto;

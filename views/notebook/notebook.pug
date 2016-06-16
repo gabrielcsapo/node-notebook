@@ -6,14 +6,14 @@ html
         style
             include notebook.css
     body
-        div.navbar
+        div.navbar.navbar-black
             div.container
                 div.navbar-title(style="margin-top:40px;")
                     a(href="/") node-notebook
-                div.nav
-                    a(href="https://github.com/gabrielcsapo/node-notebook")
+                div.nav.nav-outline(style="padding-top:0px;padding-bottom:0px;")
+                    a(style="display: inline-block;" href="https://github.com/gabrielcsapo/node-notebook")
                         i(class="fa fa-3x fa-github")
-                    a(href="/notebook")
+                    a(style="display: inline-block;" href="/notebook")
                         i(class="fa fa-3x fa-plus")
                     p(href="#" id="total-time" class="badge background-black text-white" style="margin-top: -15px;border-radius:0px;height:40px;width:auto;line-height:40px;display:inline-block;")
 
@@ -29,7 +29,7 @@ html
                             span=share_url
             else
                 button(class="btn border-primary" id="btn-save") Create
-            hr
+            hr.ellipsis
             div.navbar.footer
                 div.container.text-center
                     div.text-black

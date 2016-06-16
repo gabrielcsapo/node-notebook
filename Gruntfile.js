@@ -11,7 +11,7 @@ module.exports = function(grunt) {
                     }
                 },
                 files: {
-                    'index.html': ['views/index.pug']
+                    'index.html': ['views/index/index.pug']
                 }
             }
         },
@@ -20,16 +20,22 @@ module.exports = function(grunt) {
                 options: {
                     path: 'screenshots',
                     files: [{
+                        parallel: true,
+                        compress: true,
                         type: 'remote',
                         src: 'http://localhost:3000',
                         dest: 'intro.png',
                         delay: '500'
                     }, {
+                        parallel: true,
+                        compress: true,
                         type: 'remote',
                         src: 'http://localhost:3000/notebook/example',
                         dest: 'stored.png',
                         delay: '3000'
                     }, {
+                        parallel: true,
+                        compress: true,
                         type: 'remote',
                         src: 'http://localhost:3000/notebook',
                         dest: 'new.png',
