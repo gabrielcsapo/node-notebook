@@ -38,10 +38,10 @@
   "devDependencies": {
     "browserify": "^13.0.1",
     "chai": "^3.5.0",
-    "eslint": "^2.13.1",
+    "eslint": "^3.1.1",
     "grunt": "^1.0.1",
     "grunt-contrib-pug": "^1.0.0",
-    "grunt-screenshot": "^0.4.0",
+    "grunt-screenshot": "^0.6.0",
     "less": "^2.7.1",
     "less-plugin-clean-css": "^1.5.1",
     "mocha": "^2.5.3",
