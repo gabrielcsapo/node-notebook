@@ -43,9 +43,10 @@ describe('Module', function() {
     });
 
     it('should run a code sample with a specific version of a module', function(done) {
-        var code = 'require("moment@2.13.0")().format("x");';
+        var code = 'require("moment@2.14.1")().format("x");';
         notebook.run(code, Date.now(), function(result) {
             assert.isObject(result, 'result is an object');
+            assert.isUndefined(result.error, 'result has no error attribute');
             assert.isNumber(result.time, 'time is a number representing milleseconds');
             assert.isArray(result.logs, 'result logs is an Array');
             assert.isString(result.result, 'result result is a string');
