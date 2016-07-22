@@ -1,7 +1,7 @@
 require('codemirror/mode/javascript/javascript');
 
 var CodeMirror = require('codemirror/lib/codemirror');
-var Chartist = require('chartist');
+var Chart = require('chart.js');
 
 var path = location.pathname.replace('notebook', '').replace('/', '');
 var session = path !== '/' ? path.replace('/', '') : Date.now();
@@ -160,82 +160,38 @@ var showAnalytics = function(id, analytics) {
             avg_series.push(avg_time);
         });
 
-        var defaultOptions = {
-            labelClass: 'ct-label',
-            labelOffset: {
-                x: 0,
-                y: -10
-            },
-            textAnchor: 'middle',
-            labelInterpolationFnc: Chartist.noop
-        };
-
-        Chartist.plugins = Chartist.plugins || {};
-        Chartist.plugins.ctPointLabels = function(options) {
-
-            options = Chartist.extend({}, defaultOptions, options);
-
-            return function ctPointLabels(chart) {
-                if (chart instanceof Chartist.Line) {
-                    chart.on('draw', function(data) {
-                        if (data.type === 'point') {
-                            if (options.series ? options.series.indexOf(data.series.name) > -1 : true) {
-                                data.group.elem('text', {
-                                    x: data.x + options.labelOffset.x,
-                                    y: data.y + options.labelOffset.y,
-                                    style: 'text-anchor: ' + options.textAnchor
-                                }, options.labelClass).text(options.labelInterpolationFnc(data.value.x === undefined ? data.value.y : data.value.x + ', ' + data.value.y));
-                            }
-                        }
-                    });
-                }
-            };
-        };
-
         var timings = ''+
             '<span id="code-chart-avg-time' + id + '" style="float: left;margin-top:5px;margin-bottom:5px;" class="badge badge-default">Avg : ' + avg_time.toFixed(3) + 'ms</span>' +
             '<span id="code-chart-min-time' + id + '" style="float: right;margin-top:5px;margin-bottom:5px;border-radius:0px;" class="badge badge-default">Min Time : ' + min_time.toFixed(0) + 'ms</span>&nbsp;' +
             '<span id="code-chart-max-time' + id + '" style="float: right;margin-top:5px;margin-bottom:5px;border-radius:0px;margin-right:2px;" class="badge badge-default">Max Time : ' + max_time.toFixed(0) + 'ms</span>';
         document.querySelector('#code-chart-' + id).innerHTML = timings;
         try {
-            new Chartist.Line('#code-chart-' + id, {
-                labels: labels,
-                series: [{
-                    name: 'series-runs',
-                    data: series
-                }, {
-                    name: 'series-avg',
-                    data: avg_series
-                }]
-            }, {
-                lineSmooth: Chartist.Interpolation.simple({
-                    divisor: 1
-                }),
-                fullWidth: true,
-                low: 0,
-                axisY: {
-                    offset: 40,
-                    labelInterpolationFnc: function(value) {
-                        return value + 'ms'
-                    },
-                    scaleMinSpace: 15
+            var ctx = document.querySelector('#code-chart-' + id);
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'series-runs',
+                        data: series
+                    }, {
+                        label: 'series-avg',
+                        data: avg_series
+                    }]
                 },
-                plugins: [
-                    Chartist.plugins.ctPointLabels({
-                        textAnchor: 'middle',
-                        labelInterpolationFnc: function(value) {
-                            return value + 'ms'
-                        },
-                        series: ['series-runs']
-                    })
-                ],
-                series: {
-                    'series-runs': {
-                        showArea: true
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
                     }
                 }
             });
-        } catch (ex) {} // eslint-disable-line no-empty
+        } catch (ex) {
+            console.log(ex);
+        } // eslint-disable-line no-empty
     }
 }
 
@@ -314,7 +270,7 @@ var createCodeBlock = function(id, script, analytics) {
         '<i id="' + now + '-code-tooltip" class="code-tooltip"><small>type code and press shift + enter to run</small></i>' +
         '<div id="' + now + '-code-response" class="code-response"></div>' +
         '<div id="' + now + '-code-loading" class="code-loading"><div class="spinner-overlay"><div class="spinner-wrapper"><div class="spinner spinner-info"></div></div></div></div>' +
-        '<div id="code-chart-' + now + '" class="code-analytics-chart"></div>' +
+        '<canvas id="code-chart-' + now + '" class="code-analytics-chart"></canvas>' +
         '<i id="' + now + '-code-actions" class="code-actions"><i class="fa fa-play" onclick="run(\'' + (now) + '\');">&nbsp;&nbsp;</i><i class="fa fa-terminal" onclick="createCodeBlock(\'' + (now) + '\');">&nbsp;&nbsp;</i><i class="fa fa-pencil" onclick="createTextBlock(\'' + (now) + '\');">&nbsp;&nbsp;</i><i class="fa fa-trash-o" onclick="deleteBlock(\'' + (now) + '\');">&nbsp;&nbsp;</i></i>' +
         '</div>';
     div.innerHTML = html;
