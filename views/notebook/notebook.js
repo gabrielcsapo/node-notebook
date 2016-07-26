@@ -189,9 +189,7 @@ var showAnalytics = function(id, analytics) {
                     }
                 }
             });
-        } catch (ex) {
-            console.log(ex);
-        } // eslint-disable-line no-empty
+        } catch (ex) {} // eslint-disable-line no-empty
     }
 }
 
