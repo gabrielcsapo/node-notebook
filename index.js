@@ -44,6 +44,13 @@ app.get('/', function(req, res) {
     });
 });
 
+app.get('/notebooks', function(req, res) {
+    var notebooks = db('notebooks').value().map(function(n) {
+        return n.hash;
+    });
+    res.render('notebook-list/notebook-list', {notebooks: notebooks});
+});
+
 app.get('/notebook', function(req, res) {
     res.render('notebook/notebook');
 });

@@ -31,14 +31,21 @@ module.exports = function(grunt) {
                         compress: true,
                         type: 'remote',
                         src: 'http://localhost:3000/notebook/example',
-                        dest: 'stored.png',
+                        dest: 'notebook.png',
+                        delay: '3000'
+                    }, {
+                        parallel: true,
+                        compress: true,
+                        type: 'remote',
+                        src: 'http://localhost:3000/notebooks',
+                        dest: 'notebook-list.png',
                         delay: '3000'
                     }, {
                         parallel: true,
                         compress: true,
                         type: 'remote',
                         src: 'http://localhost:3000/notebook',
-                        dest: 'new.png',
+                        dest: 'notebook-new.png',
                         delay: '1000'
                     }],
                     viewport: ['1920x1080', '1024x768', '640x960', '320x480']
