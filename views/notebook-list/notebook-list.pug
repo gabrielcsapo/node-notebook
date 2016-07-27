@@ -1,0 +1,25 @@
+doctype html
+html
+    head
+        title node-notebook
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        style
+            include ../notebook/notebook.css
+    body
+        div.navbar
+            div.container
+                div.navbar-title(style="margin-top:35px;")
+                    a(href="/") node-notebook
+                div.nav
+                    a(href="https://github.com/gabrielcsapo/node-notebook")
+                        i(class="fa fa-3x fa-github")
+        div.grid
+            div.col-2-12
+            div.col-8-12(style="position:relative;padding-bottom:80px;")
+                ul.list
+                    li.list-item
+                        a(href="/notebook/example") example
+                    for value in notebooks
+                        li.list-item
+                            a(href="/notebook/" + value)=value
+            div.col-2-12
