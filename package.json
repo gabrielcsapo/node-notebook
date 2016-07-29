@@ -45,7 +45,7 @@
     "less": "^2.7.1",
     "less-plugin-clean-css": "^1.5.1",
     "mocha": "^2.5.3",
-    "supertest": "^1.2.0",
+    "supertest": "^2.0.0",
     "uglifyjs": "^2.4.10"
   },
   "directories": {
