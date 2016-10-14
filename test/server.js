@@ -1,3 +1,5 @@
+require('babel-core/register');
+require('babel-polyfill');
 var request = require('supertest');
 var assert = require('chai').assert;
 var app = require('../index');
