@@ -221,15 +221,37 @@ var run = function(id, callback) {
     }));
 }
 
+global.save = function() {
+  var values = [];
+  for (var key in editors) {
+      values.push({
+          type: editors[key].type,
+          value: editors[key].editor.getValue()
+      });
+  }
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "/notebook/" + session);
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+          window.location.href = '/notebook/' + session;
+      }
+  }
+  xhr.send(JSON.stringify({
+      values: values
+  }));
+}
+
 /*eslint-disable no-unused-vars */
-var deleteBlock = function(id) {
+global.deleteBlock = function(id) {
     delete editors[id];
     document.querySelector('.code-container')
             .removeChild(document.getElementById(id + '-code-form').parentNode);
+    save();
 }
 /*eslint-enable no-unused-vars */
 
-var createTextBlock = function(id, text) {
+global.createTextBlock = function(id, text) {
     var now = Date.now();
     var div = document.createElement('div');
     var html = '<div id="' + now + '-code-form" class="editor-form">' +
@@ -259,7 +281,7 @@ var createTextBlock = function(id, text) {
     return editor;
 }
 
-var createCodeBlock = function(id, script, analytics) {
+global.createCodeBlock = function(id, script, analytics) {
     var now = Date.now();
     var div = document.createElement('div');
     // TODO: all ids and classes could be abstracted to locators object
@@ -354,24 +376,7 @@ var startup = function() {
     }
 
     document.getElementById('btn-save').onclick = function() {
-        var values = [];
-        for (var key in editors) {
-            values.push({
-                type: editors[key].type,
-                value: editors[key].editor.getValue()
-            });
-        }
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/notebook/" + session);
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                window.location.href = '/notebook/' + session;
-            }
-        }
-        xhr.send(JSON.stringify({
-            values: values
-        }));
+        save();
     }
 
     if (document.getElementById('btn-run-all')) {
