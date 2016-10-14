@@ -247,7 +247,7 @@ global.deleteBlock = function(id) {
     delete editors[id];
     document.querySelector('.code-container')
             .removeChild(document.getElementById(id + '-code-form').parentNode);
-    save();
+    global.save();
 }
 /*eslint-enable no-unused-vars */
 
@@ -360,23 +360,23 @@ var startup = function() {
             JSON.parse(storedValues).forEach(function(v) {
                 switch (v.type) {
                     case 'script':
-                        createCodeBlock(undefined, v.value, v.analytics);
+                        global.createCodeBlock(undefined, v.value, v.analytics);
                         break;
                     case 'text':
-                        createTextBlock(undefined, v.value);
+                        global.createTextBlock(undefined, v.value);
                         break;
                 }
             });
             run_all();
         } else {
-            createCodeBlock();
+            global.createCodeBlock();
         }
     } else {
-        createCodeBlock();
+        global.createCodeBlock();
     }
 
     document.getElementById('btn-save').onclick = function() {
-        save();
+        global.save();
     }
 
     if (document.getElementById('btn-run-all')) {
