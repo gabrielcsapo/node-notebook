@@ -1,5 +1,3 @@
-require('babel-core/register');
-require('babel-polyfill');
 var request = require('supertest');
 var assert = require('chai').assert;
 var app = require('../index');
@@ -82,7 +80,7 @@ describe('Sever', function() {
             .post('/notebook/' + now)
             .type('json')
             .send({
-                values: [{type: "script", value: "var i = 4;i;"}, {type: "text", value: "you can use simple numbers?"}]
+                values: [{type: "script", value: "var i = 4; i;"}, {type: "text", value: "you can use simple numbers?"}]
             })
             .expect(200)
             .end(function(err) {

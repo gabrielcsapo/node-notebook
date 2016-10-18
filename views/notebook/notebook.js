@@ -124,6 +124,7 @@ var parse = function(req) {
                 break;
         }
     }
+
     if (logs && logs.length > 0) {
         html += createTree(logs, 'Array', 'Console');
     }
