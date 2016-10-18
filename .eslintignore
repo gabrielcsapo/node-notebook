@@ -1,3 +1,4 @@
 node_modules/**
 sandbox/**
 views/notebook/bundle.js
+coverage
