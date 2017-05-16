@@ -1,0 +1,18 @@
+html {
+    box-sizing: border-box;
+    height: 100%;
+}
+body {
+    position: relative;
+    margin: 0;
+    padding-bottom: 6rem;
+    min-height: 100%;
+    width: 100%;
+}
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+}
