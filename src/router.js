@@ -1,7 +1,7 @@
 import React from 'react';
 import { Router, Route, browserHistory } from 'react-router';
 
-import Layout from './layout';
+import Layout from './components/layout';
 import Main from './main';
 import Notebook from './notebook';
 

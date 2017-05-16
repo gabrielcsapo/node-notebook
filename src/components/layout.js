@@ -6,7 +6,7 @@ class Layout extends React.Component {
     const { children } = this.props;
 
     return (
-      <div>
+      <div style={{ width: '50%', height: '100%', margin: '0 auto', position: 'relative' }}>
         <div className="navbar">
           <div className="container">
             <div className="navbar-title">

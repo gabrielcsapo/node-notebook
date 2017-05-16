@@ -43,8 +43,16 @@ function parse(code) {
 }
 
 app.post('/api/notebook', (req, res) => {
-    Notebook.create({}, (error, doc) => {
-        res.send(doc);
+    const notebook = req.body.notebook;
+
+    Notebook.create((notebook || {}), (error, doc) => {
+        if(error) {
+            res.status(500);
+            res.send(error);
+        } else {
+            res.status(200);
+            res.send(doc);
+        }
     });
 });
 

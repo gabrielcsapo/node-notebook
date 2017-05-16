@@ -36,7 +36,7 @@
     "eslint": "^3.8.1",
     "eslint-plugin-react": "^7.0.1",
     "prop-types": "^15.5.10",
-    "psychic-ui": "^0.4.0",
+    "psychic-ui": "^1.0.6",
     "react": "^15.5.4",
     "react-ace": "^4.2.1",
     "react-dom": "^15.5.4",

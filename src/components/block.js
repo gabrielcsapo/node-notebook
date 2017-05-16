@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import 'brace/mode/javascript';
 import 'brace/theme/github';
 
+import Result from './result';
+
 class Block extends React.Component {
   constructor(props) {
     super(props);
@@ -61,15 +63,33 @@ class Block extends React.Component {
             { context ? <div>
                 <small> Context </small>
                 <pre>
-                    { Object.keys(context).filter((key) => key !== 'console').map((key) => `${key}: ${context[key]}`) }
+                    <JSONTree data={Object.keys(context)
+                      .filter(key => key !== 'console')
+                      .reduce((obj, key) => {
+                        obj[key] = context[key];
+                        return obj;
+                      }, {})} theme={{
+                      scheme: 'monokai',
+                      base00: 'rgba(#ffffff, 0)',
+                      base01: '#383830',
+                      base02: '#49483e',
+                      base03: '#75715e',
+                      base04: '#a59f85',
+                      base05: '#f8f8f2',
+                      base06: '#f5f4f1',
+                      base07: '#f9f8f5',
+                      base08: '#f92672',
+                      base09: '#fd971f',
+                      base0A: '#f4bf75',
+                      base0B: '#a6e22e',
+                      base0C: '#a1efe4',
+                      base0D: '#66d9ef',
+                      base0E: '#ae81ff',
+                      base0F: '#cc6633'
+                    }} invertTheme={true} />
                 </pre>
             </div> : '' }
-            { result ? <div>
-                <small> Output </small>
-                <pre>
-                    { result.toString() }
-                </pre>
-            </div> : '' }
+            { result ? <Result result={ result }/> : '' }
             { ast ? <div>
               <small> AST </small>
               <pre>
@@ -109,12 +129,12 @@ Block.defaultProps = {
 };
 
 Block.propTypes = {
-    id: PropTypes.string,
-    content: PropTypes.string,
-    onChange: PropTypes.func,
-    deleteBlock: PropTypes.func,
-    runBlock: PropTypes.func,
-    returnValue: PropTypes.object
+  id: PropTypes.string,
+  content: PropTypes.string,
+  onChange: PropTypes.func,
+  deleteBlock: PropTypes.func,
+  runBlock: PropTypes.func,
+  returnValue: PropTypes.object
 };
 
 export default Block;

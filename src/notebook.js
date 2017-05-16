@@ -2,7 +2,7 @@ import React from 'react';
 import JSONfn from 'json-fn';
 import PropTypes from 'prop-types';
 
-import Block from './block';
+import Block from './components/block';
 
 class Notebook extends React.Component {
   constructor(props) {
@@ -139,9 +139,34 @@ class Notebook extends React.Component {
               });
           }
       }
-      xhr.send(JSON.stringify({
+      xhr.send(JSONfn.stringify({
           notebook
       }));
+  }
+  forkNotebook() {
+    const { notebook } = this.state;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/api/notebook");
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+          if(xhr.status === 200) {
+            const returnValues = JSON.parse(xhr.responseText);
+            window.location.href = `/notebook/${returnValues._id}`;
+          } else {
+            const returnValues = JSON.parse(xhr.responseText);
+            self.setState({
+                error: returnValues
+            });
+          }
+        }
+    }
+    delete notebook['_id'];
+
+    xhr.send(JSONfn.stringify({
+        notebook
+    }));
   }
   render() {
     const { notebook, error, loading } = this.state;
@@ -168,15 +193,18 @@ class Notebook extends React.Component {
         )
     }
     return (
-        <div style={{ width: "50%", position: "relative", margin: "0 auto" }}>
-            <div style={{ display: 'block', height: '75px' }}>
-                <a href={window.location.href} style={{ float: 'left' }} className="btn btn-info"> Share Url</a>
+        <div style={{ width: "50%", position: "relative", margin: "0 auto", marginTop: '100px' }}>
+            <pre className="text-center">
+              {window.location.href}
+            </pre>
+            <div style={{ display: 'block', height: '60px' }}>
+                <button style={{ float: 'left' }} className="btn btn-warning" onClick={this.forkNotebook.bind(this)}> Fork </button>
                 <button style={{ float: 'right' }} className="btn btn-success" onClick={this.saveNotebook.bind(this)}> Save </button>
             </div>
             {notebook && notebook.notes && Object.keys(notebook.notes).length > 0 ? Object.keys(notebook.notes).map((id) => {
                 return <Block key={id} id={id} returnValue={notebook.notes[id].returnValue} content={notebook.notes[id].content} deleteBlock={this.deleteBlock.bind(this)} runBlock={this.runBlock.bind(this)} onChange={this.onChange.bind(this)}/>
             }) : <div style={{ height: "300px", lineHeight: "300px", textAlign: 'center' }}> You currently have no notes, press <a href="#" onClick={this.addNote.bind(this)}> add </a> note to get some! </div> }
-            <div style={{ position: "relative", borderTop: "1px solid #dedede" }}>
+            <div style={{ position: "relative", borderTop: "1px solid #dedede", borderBottom: "1px solid #dedede", height: "60px" }}>
                 <button style={{ float: 'left' }} className="btn btn-default" onClick={this.addNote.bind(this)}> Add </button>
                 <button style={{ float: 'right' }} className="btn btn-default" onClick={this.runBlock.bind(this)}> Run All </button>
             </div>
