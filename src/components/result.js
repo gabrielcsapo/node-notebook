@@ -23,7 +23,7 @@ class Result extends React.Component {
         <small> Result (<i> { type } </i>) </small>
 
         <pre>
-            { result }
+            { result.toString() }
         </pre>
       </div>
     )

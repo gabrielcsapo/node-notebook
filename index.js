@@ -7,6 +7,8 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const vm = require('vm');
+const tmp = require('tmp');
+const execSync = require('child_process').execSync;
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -81,10 +83,17 @@ app.get('/api/notebook/:hash', (req, res) => {
 });
 
 app.post('/api/run', (req, res) => {
+    const tmpDir = tmp.dirSync();
     const results = {};
     const runnable = req.body.runnable;
     const sandbox = {
-        console: []
+        console: [],
+        require: (name) => {
+          execSync(`npm install ${name}`, {
+            cwd: tmpDir.name
+          });
+          return require(`${tmpDir.name}/node_modules/${name}`);
+        }
     };
     const context = new vm.createContext(sandbox, {}, {
         displayErrors: true
@@ -94,11 +103,13 @@ app.post('/api/run', (req, res) => {
         try {
           const value = parse(runnable[key]);
           const script = new vm.Script(value);
+
           results[key] = {
               result: script.runInContext(context),
               context: Object.assign({}, context),
               ast: acorn.parse(value)
           };
+          console.log(results);
           // make sure the console resets
           context.console = [];
         } catch(ex) {
