@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Result extends React.Component {
   constructor(props) {
@@ -30,5 +31,8 @@ class Result extends React.Component {
   }
 }
 
+Result.propTypes = {
+  result: PropTypes.any
+};
 
 export default Result;

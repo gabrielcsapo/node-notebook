@@ -3,6 +3,7 @@ import JSONfn from 'json-fn';
 import PropTypes from 'prop-types';
 
 import Block from './components/block';
+import { LineChart } from './components/chart';
 
 class Notebook extends React.Component {
   constructor(props) {
@@ -178,6 +179,7 @@ class Notebook extends React.Component {
   }
   render() {
     const { notebook, error, loading } = this.state;
+    const { notes } = notebook;
 
     if(loading) {
       return (
@@ -200,8 +202,25 @@ class Notebook extends React.Component {
             </div>
         )
     }
+
+    const times = Object.keys(notes).map((n => {
+      return notes[n].returnValue && notes[n].returnValue.time;
+    }));
+    const opt = {
+        data: [times],
+        colors: ['#9a8585', '#a7daff', '#f7ca97'],
+        labels: ['Time'],
+        width: (window.innerWidth / 2) - 100,
+        height: 200,
+        lines: true,
+        area: true,
+        dots: true,
+        hideLabels: false,
+        grid: true
+    };
+
     return (
-        <div style={{ width: "50%", position: "relative", margin: "0 auto", marginTop: '100px' }}>
+        <div style={{ marginTop: '100px' }}>
             <pre className="text-center">
               {window.location.href}
             </pre>
@@ -209,8 +228,9 @@ class Notebook extends React.Component {
                 <button style={{ float: 'left' }} className="btn btn-warning" onClick={this.forkNotebook.bind(this)}> Fork </button>
                 <button style={{ float: 'right' }} className="btn btn-success" onClick={this.saveNotebook.bind(this)}> Save </button>
             </div>
-            {notebook && notebook.notes && Object.keys(notebook.notes).length > 0 ? Object.keys(notebook.notes).map((id) => {
-                return <Block key={id} id={id} returnValue={notebook.notes[id].returnValue} content={notebook.notes[id].content} loading={notebook.notes[id].loading} deleteBlock={this.deleteBlock.bind(this)} runBlock={this.runBlock.bind(this)} onChange={this.onChange.bind(this)}/>
+            <LineChart {...opt}/>
+            {notes ? Object.keys(notes).map((id) => {
+                return <Block key={id} id={id} returnValue={notes[id].returnValue} content={notes[id].content} loading={notes[id].loading} deleteBlock={this.deleteBlock.bind(this)} runBlock={this.runBlock.bind(this)} onChange={this.onChange.bind(this)}/>
             }) : <div style={{ height: "300px", lineHeight: "300px", textAlign: 'center' }}> You currently have no notes, press <a href="#" onClick={this.addNote.bind(this)}> add </a> note to get some! </div> }
             <div style={{ position: "relative", borderTop: "1px solid #dedede", borderBottom: "1px solid #dedede", height: "60px" }}>
                 <button style={{ float: 'left' }} className="btn btn-default" onClick={this.addNote.bind(this)}> Add </button>

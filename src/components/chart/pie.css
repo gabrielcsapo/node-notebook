@@ -1,0 +1,34 @@
+svg {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform-origin: 50% 50%;
+          transform-origin: 50% 50%;
+  -webkit-animation: scale .6s;
+          animation: scale .6s;
+  margin: 10px;
+}
+svg text {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: bolder;
+  font-size: 12px;
+}
+@-webkit-keyframes scale {
+  from {
+    -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+  }
+  to {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+@keyframes scale {
+  from {
+    -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+  }
+  to {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}

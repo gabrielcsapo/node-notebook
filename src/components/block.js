@@ -146,6 +146,7 @@ Block.defaultProps = {
 
 Block.propTypes = {
   id: PropTypes.string,
+  loading: PropTypes.boolean,
   content: PropTypes.string,
   onChange: PropTypes.func,
   deleteBlock: PropTypes.func,
