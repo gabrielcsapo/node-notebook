@@ -13,11 +13,3 @@
 # [Concepts](CONCEPTS.md)
 
 > what are some ideas for node-notebook?
-
-# Screenshots
-
-![Intro](screenshots/remote-1920x1080-intro.png)
-
-![Notebook](screenshots/remote-1920x1080-notebook.png)
-
-![Notebook-List](screenshots/remote-1920x1080-notebook-list.png)

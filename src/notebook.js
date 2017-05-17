@@ -17,9 +17,10 @@ class Notebook extends React.Component {
   componentWillMount() {
       const self = this;
       const xhr = new XMLHttpRequest();
+      const hash = this.props.params && this.props.params.hash;
 
-      if(this.props.params.hash) {
-          xhr.open("GET", `/api/notebook/${this.props.params.hash}`);
+      if(hash) {
+          xhr.open("GET", `/api/notebook/${hash}`);
           xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
           xhr.onreadystatechange = function() {
               if (xhr.readyState == 4) {
