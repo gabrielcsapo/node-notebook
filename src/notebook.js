@@ -80,11 +80,18 @@ class Notebook extends React.Component {
       for(var noteIndex = 0; noteIndex <= keys.length - 1; noteIndex++) {
           if(keys[noteIndex] == id) {
               runnable[keys[noteIndex]] = notebook.notes[keys[noteIndex]].content;
+              notebook.notes[keys[noteIndex]].loading = true;
               break;
           } else {
               runnable[keys[noteIndex]] = notebook.notes[keys[noteIndex]].content;
+              notebook.notes[keys[noteIndex]].loading = true;
           }
       }
+      // update loading state
+      self.setState({
+          notebook
+      });
+
       var xhr = new XMLHttpRequest();
       xhr.open("POST", "/api/run");
       xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -93,6 +100,7 @@ class Notebook extends React.Component {
               const returnValues = JSONfn.parse(xhr.responseText);
               Object.keys(returnValues).forEach((key) => {
                   notebook.notes[key].returnValue = returnValues[key];
+                  notebook.notes[key].loading = false;
               });
               self.setState({
                   notebook
@@ -202,7 +210,7 @@ class Notebook extends React.Component {
                 <button style={{ float: 'right' }} className="btn btn-success" onClick={this.saveNotebook.bind(this)}> Save </button>
             </div>
             {notebook && notebook.notes && Object.keys(notebook.notes).length > 0 ? Object.keys(notebook.notes).map((id) => {
-                return <Block key={id} id={id} returnValue={notebook.notes[id].returnValue} content={notebook.notes[id].content} deleteBlock={this.deleteBlock.bind(this)} runBlock={this.runBlock.bind(this)} onChange={this.onChange.bind(this)}/>
+                return <Block key={id} id={id} returnValue={notebook.notes[id].returnValue} content={notebook.notes[id].content} loading={notebook.notes[id].loading} deleteBlock={this.deleteBlock.bind(this)} runBlock={this.runBlock.bind(this)} onChange={this.onChange.bind(this)}/>
             }) : <div style={{ height: "300px", lineHeight: "300px", textAlign: 'center' }}> You currently have no notes, press <a href="#" onClick={this.addNote.bind(this)}> add </a> note to get some! </div> }
             <div style={{ position: "relative", borderTop: "1px solid #dedede", borderBottom: "1px solid #dedede", height: "60px" }}>
                 <button style={{ float: 'left' }} className="btn btn-default" onClick={this.addNote.bind(this)}> Add </button>

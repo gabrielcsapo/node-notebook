@@ -28,9 +28,19 @@ class Block extends React.Component {
       runBlock(id);
   }
   render() {
-    const { content, returnValue } = this.props;
+    const { content, returnValue, loading } = this.props;
 
-    const { context, result, ast, error } = returnValue;
+    const { context, result, ast, error, time } = returnValue;
+
+    if(loading) {
+      return (
+        <div className="spinner-overlay"  style={{ height: "200px", border: "1px solid #dedede", marginTop: "10px", marginBottom: "60px" }}>
+          <div className="spinner-wrapper">
+            <div className="spinner spinner-primary"></div>
+          </div>
+        </div>
+      )
+    }
 
     return (
         <div style={{ position: "relative", marginTop: "10px", marginBottom: "60px" }}>
@@ -48,6 +58,12 @@ class Block extends React.Component {
                 <button style={{ padding: "5px", float: "left" }} className="btn btn-warning" type="button" onClick={ this.deleteBlock.bind(this) }> Delete </button>
                 <button style={{ padding: "5px", float: "right" }} className="btn btn-default" type="button" onClick={ this.runBlock.bind(this) }> Run </button>
             </div>
+            { time !== undefined ? <div>
+              <small> Time </small>
+              <pre>
+                Took {time} ms
+              </pre>
+            </div> : ''}
             { error ? <div>
               <small> Error </small>
               <pre>

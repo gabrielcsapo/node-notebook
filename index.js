@@ -104,12 +104,18 @@ app.post('/api/run', (req, res) => {
           const value = parse(runnable[key]);
           const script = new vm.Script(value);
 
+          const start = new Date().getTime();
           results[key] = {
               result: script.runInContext(context),
               context: Object.assign({}, context),
               ast: acorn.parse(value)
           };
-          console.log(results);
+          // make sure we don't send the require code to client
+          delete results[key]['context']['require'];
+
+          // set the date
+          results[key]['time'] = new Date().getTime() - start;
+
           // make sure the console resets
           context.console = [];
         } catch(ex) {
