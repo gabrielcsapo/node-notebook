@@ -13,3 +13,9 @@
 # [Concepts](CONCEPTS.md)
 
 > what are some ideas for node-notebook?
+
+# Screenshots
+
+![main](./screenshots/main.png)
+
+![notebook](./screenshots/notebook.png)
