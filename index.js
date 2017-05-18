@@ -12,7 +12,7 @@ const execSync = require('child_process').execSync;
 const app = express();
 const port = process.env.PORT || 8080;
 
-mongoose.connect('mongodb://localhost/node-notebook');
+mongoose.connect(process.env.MONGO_URL);
 const NotebookSchema = new mongoose.Schema({ notes: Object }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
 const Notebook = mongoose.model('Notebook', NotebookSchema);
 

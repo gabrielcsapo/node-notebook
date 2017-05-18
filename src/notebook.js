@@ -206,7 +206,7 @@ class Notebook extends React.Component {
 
     const times = Object.keys(notes).map((n => {
       return notes[n].returnValue && notes[n].returnValue.time;
-    }));
+    }), []);
     const opt = {
         data: [times],
         colors: ['#9a8585', '#a7daff', '#f7ca97'],
@@ -229,8 +229,8 @@ class Notebook extends React.Component {
                 <button style={{ float: 'left' }} className="btn btn-warning" onClick={this.forkNotebook.bind(this)}> Fork </button>
                 <button style={{ float: 'right' }} className="btn btn-success" onClick={this.saveNotebook.bind(this)}> Save </button>
             </div>
-            <LineChart {...opt}/>
-            {notes ? Object.keys(notes).map((id) => {
+            { times.length > 0 ? <LineChart {...opt}/> : '' }
+            { notes && Object.keys(notes).length > 0 ? Object.keys(notes).map((id) => {
                 return <Block key={id} id={id} returnValue={notes[id].returnValue} content={notes[id].content} loading={notes[id].loading} deleteBlock={this.deleteBlock.bind(this)} runBlock={this.runBlock.bind(this)} onChange={this.onChange.bind(this)}/>
             }) : <div style={{ height: "300px", lineHeight: "300px", textAlign: 'center' }}> You currently have no notes, press <a href="#" onClick={this.addNote.bind(this)}> add </a> note to get some! </div> }
             <div style={{ position: "relative", borderTop: "1px solid #dedede", borderBottom: "1px solid #dedede", height: "60px" }}>

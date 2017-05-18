@@ -11,7 +11,11 @@
     "type": "git",
     "url": "git+https://github.com/gabrielcsapo/node-notebook.git"
   },
+  "bin": {
+    "node-notebook": "./bin/index.js"
+  },
   "scripts": {
+    "start": "./bin/index.js",
     "lint": "eslint .",
     "build": "NODE_ENV=production webpack --progress",
     "dev": "webpack-dev-server --hot"
@@ -20,6 +24,7 @@
   "dependencies": {
     "acorn": "^5.0.3",
     "body-parser": "^1.15.2",
+    "commander": "^2.9.0",
     "escodegen": "^1.8.1",
     "estraverse": "^4.2.0",
     "express": "^4.14.0",
