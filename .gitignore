@@ -1,7 +1,3 @@
 node_modules
 .DS_Store
 npm-debug.log
-sandbox
-db.json
-analytics.json
-coverage

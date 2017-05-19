@@ -1,0 +1,63 @@
+.LineChart {
+  position: relative;
+  display: block;
+  margin: 0 auto;
+}
+.LineChart--tooltip {
+  display: block;
+  position: absolute;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #d0d0d0;
+  border-radius: 2px;
+  font-family: Sans-serif;
+  font-size: 10px;
+  pointer-events: none;
+  -webkit-transform: translate(-50%, -100%);
+          transform: translate(-50%, -100%);
+  white-space: nowrap;
+}
+.LineChart--tooltip::before {
+  content: '';
+  position: absolute;
+  border: 6px solid transparent;
+  border-top: 6px solid #d0d0d0;
+  bottom: -12px;
+  left: 50%;
+  margin-left: -6px;
+}
+.LineChart--tooltip::after {
+  content: '';
+  position: absolute;
+  border: 5px solid transparent;
+  border-top: 5px solid #fff;
+  bottom: -10px;
+  left: 50%;
+  margin-left: -5px;
+}
+.LineChart--tooltip i {
+  font-style: normal;
+}
+.LineChart--tooltip i::before {
+  content: ': ';
+}
+.LineChart--axis {
+  font-family: Sans-serif;
+  font-size: 10px;
+  fill: #ccc;
+}
+.LineChart--label {
+  font-family: Sans-serif;
+  font-size: 10px;
+}
+.LineChart circle {
+  -webkit-transition: 0.3s ease-out;
+  transition: 0.3s ease-out;
+}
+.LineChart circle:hover {
+  r: 8px;
+}
+.LineChart g {
+  -webkit-transition: 1.5s ease-out;
+  transition: 1.5s ease-out;
+}

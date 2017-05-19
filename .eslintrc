@@ -1,8 +1,21 @@
 {
-  "extends": "eslint:recommended",
-  "env": {
-      "node": true,
-      "mocha": true,
-      "browser": true
-  }
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+    "env": {
+        "es6": true,
+        "node": true,
+        "browser": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "plugins": [
+        "react"
+    ]
 }
