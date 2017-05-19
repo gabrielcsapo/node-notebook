@@ -1,6 +1,6 @@
 {
   "name": "node-notebook",
-  "version": "0.3.9",
+  "version": "1.0.0",
   "description": "A notebook service that runs Javascript through the node vm",
   "author": "Gabriel J. Csapo <gabecsapo@gmail.com>",
   "bugs": {

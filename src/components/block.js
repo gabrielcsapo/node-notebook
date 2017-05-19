@@ -72,8 +72,8 @@ class Block extends React.Component {
             </div> : ''}
             { context && context.console ? <div>
                 <small> Console </small>
-                <pre>
-                    { context.console.map((value, i) => { return `${i}: ${value.toString()}`}) }
+                <pre style={{ whiteSpace: "pre-wrap" }}>
+                    { context.console.map((value, i) => { return `${i}: ${value.toString()} \n`}) }
                 </pre>
             </div> : '' }
             { context ? <div>
